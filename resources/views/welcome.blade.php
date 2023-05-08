@@ -9,6 +9,7 @@
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
+        <link rel="icon" type="image/png" sizes="32x32" href="{{asset('assets/img/raffle-logo_100x100.ico')}}">
 
         <!-- Styles -->
         <style>

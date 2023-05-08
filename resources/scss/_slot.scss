@@ -1,0 +1,379 @@
+#lucky-draw {
+    width: 100%;
+    text-align: center;
+    position: relative;
+    z-index: $z-index-lucky-draw; // make sure contents are on top of confetting
+}
+
+.title {
+    height: auto;
+    max-width: $title-width;
+    width: 100%;
+    margin: $title-margin-top 0 $title-margin-bottom 0;
+    position: relative;
+    z-index: $z-index-title; // make sure title on top of sunburst
+
+    //   @each $media-query, $factor in $scale-factors {
+    //     @media #{$media-query} {
+    //       max-width: $title-width * $factor;
+    //       margin: $title-margin-top 0 $title-margin-bottom * $factor 0;
+    //     }
+    //   }
+}
+
+.control-group {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+
+    .icon-button {
+        margin: 0 0 0 1.5rem;
+    }
+}
+
+.slot {
+    position: relative;
+
+    &__outer {
+        width: $slot-width;
+        height: $slot-height;
+        padding: $slot-border-width;
+        margin: 0 auto;
+        border-radius: $slot-border-radius;
+        @include shadow("large");
+        background: $color-slot-background url(/assets/img/light-blubs.svg);
+        position: relative;
+        z-index: $z-index-slot; // make sure slot is on top of sunburst
+    }
+
+    &__inner {
+        background-color: $color-slot-inner-background;
+        width: 100%;
+        height: 100%;
+        border-radius: $slot-border-radius;
+        position: relative;
+        overflow: hidden;
+        padding: $slot-inner-padding;
+    }
+
+    &__shadow {
+        background: linear-gradient(
+            180deg,
+            rgba($color-white, 0.1) 0.13%,
+            rgba($color-black, 0.1) 100%
+        );
+        height: 5.625rem;
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        border-bottom-right-radius: $slot-border-radius;
+        border-bottom-left-radius: $slot-border-radius;
+    }
+
+    //   @each $media-query, $factor in $scale-factors {
+    //     @media #{$media-query} {
+    //       width: $slot-width * $factor;
+    //       height: $slot-height * $factor;
+    //       margin: 0 auto;
+
+    //       &__outer {
+    //         transform: scale($factor);
+    //         transform-origin: top left;
+    //       }
+    //     }
+    //   }
+}
+
+.reel {
+    width: 100%;
+
+    > div {
+        height: $reel-item-height;
+        font-size: 5rem;
+        font-weight: bold;
+        text-align: center;
+        line-height: $reel-item-height;
+        color: $color-slot-text;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        /* enable gpu accelaration to fix iOS flicker issue */
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+.reel-winner {
+    margin-bottom: -0.5rem;
+}
+
+#winner-name {
+    width: 100%;
+    font-size: 3rem;
+    font-weight: bold;
+    text-align: center;
+    line-height: $winner-name-height;
+    color: rgb(255, 255, 255);
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    /* enable gpu accelaration to fix iOS flicker issue */
+    transform: translate3d(0, 0, 0);
+}
+
+#winner-address {
+    width: 100%;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+    color: rgb(255, 255, 255);
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    /* enable gpu accelaration to fix iOS flicker issue */
+    transform: translate3d(0, 0, 0);
+}
+
+#draw-button {
+    width: $draw-button-width;
+    max-width: 100%;
+    margin: $draw-button-margin-top 0 0;
+    position: relative;
+    z-index: $z-index-draw-button; // make sure draw button on top of sunburst
+
+    //   @each $media-query, $factor in $scale-factors {
+    //     @media #{$media-query} {
+    //       width: $draw-button-width * $factor;
+    //       margin: $draw-button-margin-top * $factor 0 0;
+    //       font-size: max((1.75rem * $factor), 1rem);
+    //       line-height: max((1.75rem * $factor), 1rem);
+    //       padding: 1rem * $factor 0.625rem * $factor;
+    //       border-radius: 0.625rem * $factor;
+    //       @include shadow('large', $factor);
+    //     }
+    //   }
+}
+
+.settings {
+    position: fixed;
+    z-index: $z-index-settings - 1;
+    background-color: $color-settings-mask;
+    content: " ";
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    display: none;
+
+    &__panel {
+        position: fixed;
+        top: 0;
+        right: 0;
+        z-index: $z-index-settings;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+        width: 100%;
+        max-width: $setting-panel-max-width;
+        padding: 3.125rem 3.125rem 0 3.125rem;
+        overflow: auto;
+        -webkit-overflow-scrolling: auto;
+
+        // Worksround for firefox overflow padding bottom issue
+        // https://bugzilla.mozilla.org/show_bug.cgi?id=748518
+        &__group:last-child {
+            padding-bottom: 3.125rem;
+        }
+
+        @media #{$mobile} {
+            padding: 10% 10% 0 10%;
+
+            &__group:last-child {
+                padding-bottom: 10%;
+            }
+        }
+    }
+
+    &__title {
+        margin: 0 0 1.875rem 0;
+        font-size: 2rem;
+        font-weight: bold;
+    }
+
+    #settings-save,
+    #settings-close {
+        margin: 1.875rem 0 0 0;
+        display: block;
+        width: 100%;
+    }
+}
+
+.theme--red .settings__panel {
+    background-color: $color-settings-background-red;
+    color: $color-text-light;
+}
+
+.theme--purple .settings__panel {
+    background-color: $color-settings-background-purple;
+    color: $color-text-light;
+}
+
+// Winning effects
+.sunburst {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -50vh 0 0 -50vw;
+    width: 100vw;
+    height: 100vh;
+    display: none;
+    z-index: $z-index-sunburst;
+    pointer-events: none;
+    overflow: hidden;
+
+    > img {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin: -50vmin 0 0 -50vmin;
+        width: 100vmin;
+        height: auto;
+        animation: rotate 10s infinite linear;
+    }
+}
+
+.confetti {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: $z-index-confetti;
+    pointer-events: none;
+}
+
+
+.fancy {
+    text-transform: uppercase;
+    position: relative;
+    white-space: nowrap;
+    &:after {
+      --deco-height: 0.3125em;
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: calc(var(--deco-height) * -0);
+      height: var(--deco-height);
+      background-image: url("data:image/svg+xml,%3Csvg width='100' height='64' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cg clip-path='url(%23a)'%3E%3Cpath d='M-17 30.5C-1 22 72-4 54 13 37.9 28.2-2.5 57.5 16 55.5s72-29 104-40' stroke='%2300FDCF' stroke-width='10'/%3E%3C/g%3E%3Cdefs%3E%3CclipPath id='a'%3E%3Cpath fill='%23fff' d='M0 0h100v64H0z'/%3E%3C/clipPath%3E%3C/defs%3E%3C/svg%3E%0A");
+      background-size: auto 100%;
+      background-repeat: round;
+      background-position: 0em;
+      margin-left: 2rem;
+      margin-right: 2rem;
+    }
+  }
+// Kudos to Lynn for assisting in fixing the original solution!
+// https://codepen.io/lynnandtonic/pen/RwrzzjQ
+
+/** DO YOU LOVE CSS?
+Share your love with the rest of the CSS community by contributing to Style Stage - a modern CSS showcase styled by community contributions
+@link stylestage.dev
+**/
+
+$t: rgba(255, 0, 0, 0);
+$w: rgba(255, 255, 255, 0.98);
+
+* {
+  box-sizing: border-box;
+}
+
+.sticker {
+  --c1: #ef548f;
+  --c2: #ef8b6d;
+  --c3: #cfef6b;
+  --c4: #3bf0c1;
+  --c5: #bb4af0;
+  --shine-angle: 15deg;
+  display: inline-grid;
+  grid-template-areas: "text";
+  place-items: center;
+  font-family: "Alegreya Sans SC", sans-serif;
+  font-weight: 900;
+  font-style: italic;
+  font-size: clamp(1rem, 7vw, 5rem);
+  text-transform: uppercase;
+  color: var(--c5);
+
+  &-lg {
+    font-size: clamp(2rem, 12vw, 8rem);
+  }
+
+  span {
+    background: linear-gradient(
+        var(--shine-angle),
+        $t 0%,
+        $t 35%,
+        $w 49.95%,
+        $w 50.15%,
+        $t 65%,
+        $t
+      ),
+      linear-gradient(
+        to right,
+        var(--c1),
+        var(--c2),
+        var(--c3),
+        var(--c4),
+        var(--c5)
+      );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -webkit-text-stroke: 0.01em rgba(0, 0, 0, 0.6);
+    // FUn fact - letter-spacing messes with the ability of the
+    // gradient to cover all the text :(
+  }
+
+  & > *,
+  &::before,
+  &::after {
+    grid-area: text;
+  }
+
+  &::before,
+  &::after {
+    content: attr(data-text);
+    color: #fff;
+  }
+
+  &::before {
+    -webkit-text-stroke: 0.21em white;
+    // background: no-repeat linear-gradient(white, white) 15% 50% / 85% 60%;
+
+    // Original failed attempt
+    // letter-spacing: -0.04em;
+    // transform: scale(1.12) translateX(-0.02em) translateY(0.002em);
+    // text-shadow: 0.002em 0.002em 0.02em rgba(0, 0, 0, 0.75);
+    // -webkit-text-stroke: 0.001em rgba(0, 0, 0, 0.6);
+  }
+
+  &::after {
+    text-shadow: 0.07em 0.08em 0.05em rgba(0, 0, 0, 0.75),
+      -0.07em -0.05em 0.05em rgba(0, 0, 0, 0.75);
+    z-index: -2;
+  }
+}
+
+.banner {
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+  display: grid;
+  place-content: center;
+  font-family: sans-serif;
+  line-height: 1;
+  color: var(--c5);
+
+  margin: $title-margin-top 0 $title-margin-bottom 0;
+  z-index: $z-index-title; // make sure title on top of sunburst
+}

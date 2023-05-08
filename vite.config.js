@@ -6,7 +6,10 @@ export default defineConfig({
         laravel({
             input: [
                 'resources/css/app.css',
+                'resources/css/draw.css',
+                'resources/scss/draw.scss',
                 'resources/js/app.js',
+                'resources/js/draw.ts',
             ],
             refresh: [
                 ...refreshPaths,
@@ -14,4 +17,10 @@ export default defineConfig({
             ],
         }),
     ],
+    resolve: {
+        alias: {
+            '$': 'jQuery',
+            // 'confetti': 'confetti'
+        },
+    },
 });

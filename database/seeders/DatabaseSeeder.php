@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -20,6 +20,24 @@ class DatabaseSeeder extends Seeder
             'username' => 'lem',
             'email' => 'lemuelherra@gmail.com',
             'password' => Hash::make('asdf1234'),
+        ]);
+
+        \App\Models\Settings::create([
+            'code' => 'VENUE',
+            'value' => '02',
+            'setter' => 'lemuelherra@gmail.com',
+        ]);
+
+        \App\Models\Settings::create([
+            'code' => 'PRIZE',
+            'value' => '2',
+            'setter' => 'lemuelherra@gmail.com',
+        ]);
+
+        \App\Models\Settings::create([
+            'code' => 'ENABLED',
+            'value' => 'Y',
+            'setter' => 'lemuelherra@gmail.com',
         ]);
     }
 }

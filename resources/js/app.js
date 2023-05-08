@@ -7,3 +7,11 @@ window.Alpine = Alpine;
 Alpine.plugin(focus);
 
 Alpine.start();
+
+
+import jQuery from 'jquery';
+window.$ = jQuery;
+
+
+// import confetti from 'canvas-confetti';
+// window.confetti = confetti;

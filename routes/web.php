@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DrawController;
+use App\Http\Livewire\Draw\Slot;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +28,8 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+
+    Route::get('slot', Slot::class);
 });
 
 Route::controller(DrawController::class)->middleware([
