@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Draw;
 
 use Livewire\Component;
 use App\Models\ConsumerData;
+use App\Models\RaffleWinner;
 use App\Models\Settings;
 use Illuminate\Support\Facades\DB;
 
@@ -11,7 +12,7 @@ class Slot extends Component
 {
 
     public $draw_number = 1;
-    public $draw_prize = 1;
+    public $draw_prize_id = 1;
 
     public function mount()
     {
@@ -27,8 +28,14 @@ class Slot extends Component
 
     private function getLastDrawNumber()
     {
-        $result = DB::select("SELECT COALESCE(MAX(win_draw),1) as 'number' FROM raffle_winner");
+        $result = DB::select("SELECT COALESCE(MAX(win_draw),0) +1 as 'number' FROM raffle_winner");
         $this->draw_number = $result[0]->number;
+    }
+
+    private function getPrizeId()
+    {
+        $prize = Settings::where('code', 'PRIZE')->first();
+        $this->draw_prize_id = $prize->id;
     }
 
     public function drawNumber()
@@ -40,21 +47,37 @@ class Slot extends Component
     {
         $validatedData = $this->validate([
             'draw_number' => 'required|min:1',
-            'draw_prize' => 'required',
         ]);
 
         $this->draw_number = $validatedData['draw_number'];
 
         $venue = Settings::where('code', 'VENUE')->first();
+        $prize = Settings::where('code', 'PRIZE')->first();
+        $this->draw_prize_id = $prize->id;
+
         $luck_draw = DB::select("CALL sp_lucky_draw('" . $venue->value . "', 'N')");
         $winner = [
-            'number'=> $this->draw_number,
-            // 'number'=> $luck_draw[0]->win_draw,
+            'dist_code'=> $luck_draw[0]->dist_code,
+            'town_code'=> $luck_draw[0]->town_code,
             'account_no'=> $luck_draw[0]->account_no,
             'account_code'=> $luck_draw[0]->account_code,
             'consumer_name'=> $luck_draw[0]->consumer_name,
             'address'=> $luck_draw[0]->address,
+            'is_lifeline'=> $luck_draw[0]->is_lifeline,
+            'regname'=> $luck_draw[0]->regname,
+            'regaddress'=> $luck_draw[0]->regaddress,
+            'contact'=> $luck_draw[0]->contact,
+            'winner'=> 'Y',
+            'win_draw'=> $this->draw_number,
+            'prize_id'=> $this->draw_prize_id,
         ];
+
+        RaffleWinner::create($winner);
+
+        $consumer = ConsumerData::find($luck_draw[0]->id)->update([
+            'winner'=> 'Y',
+            'win_draw'=> $this->draw_number,
+        ]);
 
         $entries = ConsumerData::where('winner', 'N')->inRandomOrder()->limit(39)->get()->pluck('raffle_entry')->toArray();
         // $winner = ConsumerData::where('winner', 'N')->inRandomOrder()->limit(1)->first();

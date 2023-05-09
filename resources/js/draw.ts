@@ -17,6 +17,7 @@ import confetti from 'canvas-confetti';
     const removeNameFromListCheckbox = document.getElementById('remove-from-list') as HTMLInputElement | null;
     const enableSoundCheckbox = document.getElementById('enable-sound') as HTMLInputElement | null;
 
+    const drawNextContainer = document.getElementById('draw-next') as HTMLElement;
     const drawNumberInput = document.getElementById('draw-number') as HTMLInputElement | null;
     const reelWinnerContainer = document.querySelector('.reel-winner') as HTMLElement;
 
@@ -30,6 +31,7 @@ import confetti from 'canvas-confetti';
     if (!(
       drawButton
       && drawNumberInput
+      && drawNextContainer
       && fullscreenButton
       && settingsButton
       && settingsWrapper
@@ -107,13 +109,13 @@ import confetti from 'canvas-confetti';
       settingsButton.disabled = false;
       drawNumberInput.value = slot.number.toString();
 
-      drawButton.innerText = "Draw #" + slot.number;
+      drawNextContainer.innerText = "Next Draw : #" + slot.number;
     };
 
     // const database = new Database();
 
     var numberStart = Number(drawNumberInput.value);
-    drawButton.innerText = "Draw #" + numberStart;
+    drawNextContainer.innerText = "Next Draw : #" + numberStart;
 
     /** Slot instance */
     const slot = new Slot({
@@ -176,7 +178,7 @@ import confetti from 'canvas-confetti';
         console.log(slot.number);
 
         drawNumberInput.value = slot.number.toString();
-        drawButton.innerText = "Draw #" + slot.number;
+        drawNextContainer.innerText = "Next Draw : #" + slot.number;
     });
     // ******************** END: LIVEWIRE HOOKS ***************************
 

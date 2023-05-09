@@ -247,7 +247,7 @@ export default class Slot {
 
     reelWinnerNameContainer.innerHTML = this.winnerData['consumer_name'];
     reelWinnerAddressContainer.innerHTML = this.winnerData['address'];
-    reelWinnerNumberContainer.innerHTML = this.winnerData['number'];
+    reelWinnerNumberContainer.innerHTML = this.winnerData['win_draw'];
 
     // // Remove winner form name list if necessary
     // if (shouldRemoveWinner) {

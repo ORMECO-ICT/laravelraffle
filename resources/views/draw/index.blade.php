@@ -34,7 +34,7 @@
                     <span class="sticker" data-text="ORMECO, Inc." style="--shine-angle: 8deg;"><span>ORMECO,
                             Inc.</span></span>
                 </div>
-                    @livewire('draw.slot')
+
                 <div>
                     <div class="slot">
                         <div class="slot__outer">
@@ -48,6 +48,8 @@
                         </div>
                     </div>
 
+                    @livewire('draw.slot')
+
                     <div class="reel-winner">
                         <div class="winner__container">
                             <div class="flex_name">
@@ -55,7 +57,7 @@
                                 <div id="winner-address" class="winner__address"></div>
                             </div>
                             <div class="flex_number">
-                                ****** RAFFLE NUMBER : <span id="winner-number" class="winner__number"></span> ******
+                                ****** WINNER NUMBER : <span id="winner-number" class="winner__number"></span> ******
                             </div>
                         </div>
                     </div>

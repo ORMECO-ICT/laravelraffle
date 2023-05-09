@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ConsumerData extends Model
+class RaffleWinner extends Model
 {
     use HasFactory;
 
-    const TABLE = 'consumer_data';
+    const TABLE = 'raffle_winner';
     protected $table = self::TABLE;
     public $timestamps = false;
 
@@ -51,15 +51,5 @@ class ConsumerData extends Model
     protected $casts = [
         'entrydate' => 'datetime',
     ];
-
-    public static function formatEntry($no, $code, $name){
-        return $no . ' | ' .  $code . ' | ' .  $name;
-    }
-
-    public function getRaffleEntryAttribute()
-    {
-        return self::formatEntry($this->account_no, $this->account_code, $this->consumer_name);
-    }
-
 
 }
