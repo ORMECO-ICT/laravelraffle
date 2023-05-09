@@ -15,6 +15,9 @@ interface SlotConfigurations {
 
   reelWinnerNameContainerSelector: string;
   reelWinnerAddressContainerSelector: string;
+  reelWinnerNumberContainerSelector: string;
+
+  drawNumberStart: number | 0;
 }
 
 /** Class for doing random name pick and animation */
@@ -47,10 +50,12 @@ export default class Slot {
   private onNameListChanged?: NonNullable<SlotConfigurations['onNameListChanged']>;
 
 
+  private reelWinnerNumberContainer: HTMLElement | null;
   private reelWinnerNameContainer: HTMLElement | null;
   private reelWinnerAddressContainer: HTMLElement | null;
 
   private winnerData: string[];
+  private drawNumber: number | 0;
 
   /**
    * Constructor of Slot
@@ -60,7 +65,9 @@ export default class Slot {
    * @param onSpinStart  Callback function that runs before spinning reel
    * @param onNameListChanged  Callback function that runs when user updates the name list
    * @param reelWinnerNameContainerSelector  Callback function that runs before spinning reel
-   * @param reelWinnerAddressContainerSelector  Callback function that runs when user updates the name list
+   * @param reelWinnerAddressContainerSelector  Callback function that runs when user updates the address list
+   * @param reelWinnerNumberContainerSelector  Callback function that runs when user updates the number list
+   * @param drawNumberStart  Callback function that runs when user updates the number list
    */
   constructor(
     {
@@ -71,7 +78,9 @@ export default class Slot {
       onSpinEnd,
       onNameListChanged,
       reelWinnerNameContainerSelector,
-      reelWinnerAddressContainerSelector
+      reelWinnerAddressContainerSelector,
+      reelWinnerNumberContainerSelector,
+      drawNumberStart
     }: SlotConfigurations
   ) {
     //TODO:Fetch list of names from the database.
@@ -81,11 +90,13 @@ export default class Slot {
     this.reelContainer = document.querySelector(reelContainerSelector);
     this.reelWinnerNameContainer = document.querySelector(reelWinnerNameContainerSelector);
     this.reelWinnerAddressContainer = document.querySelector(reelWinnerAddressContainerSelector);
+    this.reelWinnerNumberContainer = document.querySelector(reelWinnerNumberContainerSelector);
     this.maxReelItems = maxReelItems;
     this.shouldRemoveWinner = removeWinner;
     this.onSpinStart = onSpinStart;
     this.onSpinEnd = onSpinEnd;
     this.onNameListChanged = onNameListChanged;
+    this.drawNumber = drawNumberStart;
 
 
     // Create reel animation
@@ -107,18 +118,21 @@ export default class Slot {
     this.reelAnimation?.cancel();
   }
 
-  /**
-   * Setter for name list
-   * @param data  List of names to draw a winner from
-   */
   set winner(data: string[]) {
     this.winnerData = data;
   }
-
-  /** Getter for name list */
   get winner(): string[] {
     return this.winnerData;
   }
+
+
+  set number(data: number) {
+    this.drawNumber = data;
+  }
+  get number(): number {
+    return this.drawNumber;
+  }
+
 
   /**
    * Setter for name list
@@ -196,9 +210,9 @@ export default class Slot {
     }
 
 
-    const { reelContainer, reelAnimation, shouldRemoveWinner, reelWinnerNameContainer, reelWinnerAddressContainer} = this;
+    const { reelContainer, reelAnimation, shouldRemoveWinner, reelWinnerNameContainer, reelWinnerAddressContainer, reelWinnerNumberContainer} = this;
 
-    if (!reelContainer || !reelAnimation || !reelWinnerNameContainer || !reelWinnerAddressContainer) {
+    if (!reelContainer || !reelAnimation || !reelWinnerNameContainer || !reelWinnerAddressContainer || !reelWinnerNumberContainer) {
       return false;
     }
 
@@ -226,13 +240,14 @@ export default class Slot {
 
     reelContainer.appendChild(fragment);
 
-    console.log('Displayed items: ', randomNames);
+    // console.log('Displayed items: ', randomNames);
     console.log('Winner: ', randomNames[randomNames.length - 1]);
 
     const rawName = randomNames[randomNames.length - 1].split(' | ');
 
     reelWinnerNameContainer.innerHTML = this.winnerData['consumer_name'];
     reelWinnerAddressContainer.innerHTML = this.winnerData['address'];
+    reelWinnerNumberContainer.innerHTML = this.winnerData['number'];
 
     // // Remove winner form name list if necessary
     // if (shouldRemoveWinner) {
@@ -262,9 +277,12 @@ export default class Slot {
 
     this.havePreviousWinner = true;
 
+    this.drawNumber += 1;
+
     if (this.onSpinEnd) {
       this.onSpinEnd();
     }
+
     return true;
   }
 }

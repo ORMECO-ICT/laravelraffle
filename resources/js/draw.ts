@@ -17,6 +17,7 @@ import confetti from 'canvas-confetti';
     const removeNameFromListCheckbox = document.getElementById('remove-from-list') as HTMLInputElement | null;
     const enableSoundCheckbox = document.getElementById('enable-sound') as HTMLInputElement | null;
 
+    const drawNumberInput = document.getElementById('draw-number') as HTMLInputElement | null;
     const reelWinnerContainer = document.querySelector('.reel-winner') as HTMLElement;
 
     function toggleWinnerDetails(visible){
@@ -28,6 +29,7 @@ import confetti from 'canvas-confetti';
     // Graceful exit if necessary elements are not found
     if (!(
       drawButton
+      && drawNumberInput
       && fullscreenButton
       && settingsButton
       && settingsWrapper
@@ -103,9 +105,15 @@ import confetti from 'canvas-confetti';
       await soundEffects.win();
       drawButton.disabled = false;
       settingsButton.disabled = false;
+      drawNumberInput.value = slot.number.toString();
+
+      drawButton.innerText = "Draw #" + slot.number;
     };
 
     // const database = new Database();
+
+    var numberStart = Number(drawNumberInput.value);
+    drawButton.innerText = "Draw #" + numberStart;
 
     /** Slot instance */
     const slot = new Slot({
@@ -115,8 +123,11 @@ import confetti from 'canvas-confetti';
       onSpinEnd,
       onNameListChanged: stopWinningAnimation,
       reelWinnerNameContainerSelector: '#winner-name',
-      reelWinnerAddressContainerSelector: '#winner-address'
+      reelWinnerAddressContainerSelector: '#winner-address',
+      reelWinnerNumberContainerSelector: '#winner-number',
+      drawNumberStart: numberStart
     });
+
 
     /** To open the setting page */
     const onSettingsOpen = () => {
@@ -156,6 +167,16 @@ import confetti from 'canvas-confetti';
           }
 
           slot.spin();
+    });
+
+
+    window.addEventListener('onDrawNumber', (e) => {
+        console.log('onDrawNumber');
+        slot.number = e['detail'].number;
+        console.log(slot.number);
+
+        drawNumberInput.value = slot.number.toString();
+        drawButton.innerText = "Draw #" + slot.number;
     });
     // ******************** END: LIVEWIRE HOOKS ***************************
 

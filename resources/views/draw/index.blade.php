@@ -34,8 +34,34 @@
                     <span class="sticker" data-text="ORMECO, Inc." style="--shine-angle: 8deg;"><span>ORMECO,
                             Inc.</span></span>
                 </div>
+                    @livewire('draw.slot')
+                <div>
+                    <div class="slot">
+                        <div class="slot__outer">
+                            <div class="slot__inner">
+                                <div class="slot__shadow"></div>
+                                <div class="reel" id="reel"></div>
+                            </div>
+                        </div>
+                        <div class="sunburst" id="sunburst">
+                            <img src="{{ asset('assets/img/sunburst.svg') }}" alt="sunburst" />
+                        </div>
+                    </div>
 
-                @livewire('draw.slot')
+                    <div class="reel-winner">
+                        <div class="winner__container">
+                            <div class="flex_name">
+                                <div id="winner-name" class="winner__name fancy"></div>
+                                <div id="winner-address" class="winner__address"></div>
+                            </div>
+                            <div class="flex_number">
+                                ****** RAFFLE NUMBER : <span id="winner-number" class="winner__number"></span> ******
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
 
             </div>
             <div class="settings" id="settings">

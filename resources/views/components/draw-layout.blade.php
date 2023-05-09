@@ -27,5 +27,10 @@
         @stack('modals')
 
         @livewireScripts
+        <script>
+            document.addEventListener('livewire:load', () => {
+                Livewire.onPageExpired((response, message) => {})
+            })
+        </script>
     </body>
 </html>
