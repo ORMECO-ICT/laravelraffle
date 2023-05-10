@@ -1,4 +1,6 @@
+import 'laravel-datatables-vite';
 import './bootstrap';
+import './table';
 
 import Alpine from 'alpinejs';
 import focus from '@alpinejs/focus';
@@ -8,10 +10,3 @@ Alpine.plugin(focus);
 
 Alpine.start();
 
-
-import jQuery from 'jquery';
-window.$ = jQuery;
-
-
-// import confetti from 'canvas-confetti';
-// window.confetti = confetti;

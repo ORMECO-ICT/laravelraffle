@@ -27,6 +27,8 @@ import confetti from 'canvas-confetti';
     }
     toggleWinnerDetails(false);
 
+
+
     // Graceful exit if necessary elements are not found
     if (!(
       drawButton
@@ -163,12 +165,16 @@ import confetti from 'canvas-confetti';
         slot.winner = e['detail'].winner;
         console.log(slot.winner);
 
+
         if (!slot.names.length) {
             onSettingsOpen();
             return;
-          }
+        }
 
-          slot.spin();
+        slot.spin();
+
+        //refresh data of table
+        window.LaravelDataTables["table_raffle_winner"].draw(true);
     });
 
 
@@ -225,5 +231,6 @@ import confetti from 'canvas-confetti';
     //     // $('#winner-name').html=e.detail.consumer_name;
     // });
   })();
+
 
 

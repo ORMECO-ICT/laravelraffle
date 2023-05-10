@@ -38,7 +38,7 @@ Route::controller(DrawController::class)->middleware([
     'verified'
 ])->name('draw.')->prefix(DrawController::BASE)->group(function () {
     Route::get('/', 'index');
-    Route::get('/ajax_source', 'ajax_source')->name('source');
+    Route::get('/ajax_source_winners', 'source_winners')->name('source_winners');
     Route::get('/success', 'success')->name('success');
     Route::get('/create', 'create')->name('create');
     Route::post('/store', 'store')->name('store');

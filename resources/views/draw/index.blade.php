@@ -57,28 +57,33 @@
             <div class="settings" id="settings">
                 <div class="settings__panel" id="settings-panel">
                     <div class="settings__panel__group">
-                        <h1 class="settings__title">Settings</h1>
+                        <h1 class="settings__title">List of Winners</h1>
                         <div class="input-group" style="display:none">
                             <label class="input-label" for="name-list">Name List</label>
                             <textarea class="input-field input-field--textarea" rows="8" placeholder="Separate each name by line break"
                                 id="name-list"></textarea>
                         </div>
-                        <div class="input-group input-group--2-column">
+                        <div class="input-group input-group--2-column" style="display:none">
                             <label class="input-label" for="remove-from-list">Remove winner from list</label><label
                                 class="input--switch"><input type="checkbox" checked="true"
                                     id="remove-from-list" /><span class="slider"></span></label>
                         </div>
-                        <div class="input-group input-group--2-column">
+                        <div class="input-group input-group--2-column" style="display:none">
                             <label class="input-label" for="enable-sound">Enable sound effect</label><label
                                 class="input--switch"><input type="checkbox" checked="true" id="enable-sound" /><span
                                     class="slider"></span></label>
                         </div>
+
+                        {{ $dataTable->table() }}
+
+                        @push('js')
+                            {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
+                        @endpush
+
                     </div>
                     <div class="settings__panel__group">
-                        <button class="solid-button solid-button" id="settings-save">
-                            Save</button><button class="solid-button solid-button--danger" id="settings-close">
-                            Discard and close
-                        </button>
+                        <button class="solid-button solid-button" style="display:none" id="settings-save">Save</button>
+                        <button class="solid-button solid-button--danger" id="settings-close">Close</button>
                     </div>
                 </div>
             </div>
