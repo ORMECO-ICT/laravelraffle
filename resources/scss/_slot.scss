@@ -196,6 +196,36 @@
     //       @include shadow('large', $factor);
     //     }
     //   }
+
+    @media (max-width: 600px) {
+        width: $draw-button-width * 0.288;
+        margin: $draw-button-margin-top * 0.288 0 0;
+        font-size: max((1.75rem * 0.288), 1rem);
+        line-height: max((1.75rem * 0.288), 1rem);
+        padding: 1rem * 0.288 0.625rem * 0.288;
+        border-radius: 0.625rem * 0.288;
+        @include shadow('large', 0.288);
+    }
+
+    @media (min-width: 600px) {
+        width: $draw-button-width * 0.5;
+        margin: $draw-button-margin-top * 0.5 0 0;
+        font-size: max((1.75rem * 0.5), 1rem);
+        line-height: max((1.75rem * 0.5), 1rem);
+        padding: 1rem * 0.5 0.625rem * 0.5;
+        border-radius: 0.625rem * 0.5;
+        @include shadow('large', 0.5);
+    }
+
+    @media (min-width: 768px) {
+        width: $draw-button-width * 0.8;
+        margin: $draw-button-margin-top * 0.8 0 0;
+        font-size: max((1.75rem * 0.8), 1rem);
+        line-height: max((1.75rem * 0.8), 1rem);
+        padding: 1rem * 0.8 0.625rem * 0.8;
+        border-radius: 0.625rem * 0.8;
+        @include shadow('large', 0.8);
+    }
 }
 
 

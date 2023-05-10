@@ -13,16 +13,6 @@
             </div>
             <canvas class="confetti" id="confetti-canvas"></canvas>
             <div id="lucky-draw">
-                {{-- <img
-              class="title"
-              src="{{asset('assets/img/title.svg')}}"
-              alt="Lucky Draw"
-            /> --}}
-                {{-- <div class="banner">
-                ORMECO, Inc.<br/>
-                41st AGMA RAFFLE DRAW
-            </div> --}}
-                {{-- <div class="grid"></div> --}}
 
                 <div class="banner"">
                     <div>
@@ -63,14 +53,12 @@
                     </div>
 
                 </div>
-
-
             </div>
             <div class="settings" id="settings">
                 <div class="settings__panel" id="settings-panel">
                     <div class="settings__panel__group">
                         <h1 class="settings__title">Settings</h1>
-                        <div class="input-group">
+                        <div class="input-group" style="display:none">
                             <label class="input-label" for="name-list">Name List</label>
                             <textarea class="input-field input-field--textarea" rows="8" placeholder="Separate each name by line break"
                                 id="name-list"></textarea>
