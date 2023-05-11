@@ -7,7 +7,7 @@ use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\View;
 use Illuminate\Http\Request;
-use Yajra\DataTables\Facades\Datatables;
+// use Yajra\DataTables\Facades\Datatables;
 use App\Models\RaffleWinner;
 use App\DataTables\WinnersDataTable;
 
@@ -26,7 +26,7 @@ class DrawController extends Controller
     public function index(WinnersDataTable $dataTable)
     {
         if (request()->ajax()) {
-            return DataTables::of(RaffleWinner::query())->toJson();
+            return \DataTables::of(RaffleWinner::query())->toJson();
         }
 
         // return response(view("draw.index", compact("dataTable")));
