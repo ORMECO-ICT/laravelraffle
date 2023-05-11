@@ -50,12 +50,13 @@ class DrawController extends Controller
                 'towns'=> $query->pluck('town_desc'),
             ];
         }else{
-            $query = \DB::table('tbl_town')->select('*')->where('town_code', $venue_code)->first();
+            $query = \DB::table('tbl_town')->select('*')->where('dist_code', $venue_code)->first();
+            $towns = \DB::table('tbl_town')->select('*')->where('dist_code', $venue_code)->get();
 
             $venue = [
                 'code'=> $venue_code,
-                'name'=> $query->town_desc . ' ('. $query->district_desc .')',
-                'towns'=> []
+                'name'=> $query->district_desc,
+                'towns'=> $towns->pluck('town_desc'),
             ];
         }
 

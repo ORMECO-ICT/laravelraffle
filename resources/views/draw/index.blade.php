@@ -98,18 +98,18 @@
                                 </div>
                                 <hr>
                                 <div class="p-6 lg:p-8 bg-white border-b border-gray-200">
-                                    <h1 class="settings__title">Selected Venue/Municipality</h1>
+                                    <h1 class="settings__title">Selected Venue/District</h1>
                                     <div class="mt-6 text-gray-500 leading-relaxed">
                                         <h3>{{ $venue['code'] }} : {{ $venue['name'] }}</h3>
-{{--
+
                                         @if(count($venue['towns'])>0)
-                                        <ul class="text-black">
+                                        <ul class="text-black" style="list-style: none">
                                             <li><h5>Coverage</h5></li>
                                             @foreach($venue['towns'] as $town)
                                                 <li>> {{$town}}</li>
                                             @endforeach
                                         </ul>
-                                        @endif --}}
+                                        @endif
                                     </div>
                                 </div>
                                 <hr>
