@@ -111,13 +111,13 @@ import confetti from 'canvas-confetti';
       settingsButton.disabled = false;
       drawNumberInput.value = slot.number.toString();
 
-      drawNextContainer.innerText = "Next Draw : #" + slot.number;
+      drawNextContainer.innerHTML = "Next Draw : #<b>" + slot.number + "</b>";
     };
 
     // const database = new Database();
 
     var numberStart = Number(drawNumberInput.value);
-    drawNextContainer.innerText = "Next Draw : #" + numberStart;
+    drawNextContainer.innerHTML = "Next Draw : #<b>" + numberStart + "</b>";
 
     /** Slot instance */
     const slot = new Slot({
@@ -184,7 +184,7 @@ import confetti from 'canvas-confetti';
         console.log(slot.number);
 
         drawNumberInput.value = slot.number.toString();
-        drawNextContainer.innerText = "Next Draw : #" + slot.number;
+        drawNextContainer.innerHTML = "Next Draw : #<b>" + slot.number + "</b>";
     });
     // ******************** END: LIVEWIRE HOOKS ***************************
 

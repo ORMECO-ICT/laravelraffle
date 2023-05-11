@@ -12,6 +12,9 @@ class Slot extends Component
 {
 
     public $draw_number = 1;
+    public $draw_venue_name = '';
+    public $draw_prize_name = '';
+
     public $draw_prize_id = 1;
     public $venue_id = '';
 
@@ -25,6 +28,8 @@ class Slot extends Component
         // $number = $this->draw_number;
         // return view('livewire.draw.slot', compact('number'));
 
+        $this->getVenueId();
+        $this->getPrizeId();
 
         return view('livewire.draw.slot');
     }
@@ -37,14 +42,31 @@ class Slot extends Component
 
     private function getPrizeId()
     {
-        $prize = Settings::where('code', 'PRIZE')->first();
-        $this->draw_prize_id = $prize->value;
+        $setting = Settings::where('code', 'PRIZE')->first();
+        $this->draw_prize_id = $setting->value;
+
+        if ($this->draw_prize_id==''){
+            $this->draw_prize_name = '';
+        }else{
+            $query = \DB::table('raffle_prize')->select('*')->where('id', $this->draw_prize_id)->first();
+            $this->draw_prize_name = $query->prize_name;
+        }
     }
 
     private function getVenueId()
     {
         $setting = Settings::where('code', 'VENUE')->first();
         $this->venue_id = $setting->value == ''? '00' : $setting->value;
+
+        if (\Str::startsWith($this->venue_id, 'V')){
+            $query = \DB::table('venue')->select('*')->where('venue_id', $this->venue_id)->first();
+            $this->draw_venue_name = $query->venue_name;
+        }elseif ($this->venue_id=='00'){
+            $this->draw_venue_name = 'All Municipalities';
+        }else{
+            $query = \DB::table('tbl_town')->select('*')->where('dist_code', $this->venue_id)->first();
+            $this->draw_venue_name = $query->district_desc;
+        }
     }
 
     public function drawNumber()
