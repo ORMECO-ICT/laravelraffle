@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DrawController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\VerifyController;
 use App\Http\Livewire\Draw\Slot;
 
 /*
@@ -38,6 +39,14 @@ Route::controller(DashboardController::class)->middleware([
     config('jetstream.auth_session'),
     'verified'
 ])->name('dashboard.')->prefix(DashboardController::BASE)->group(function () {
+    Route::get('/', 'index');
+});
+
+Route::controller(VerifyController::class)->middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified'
+])->name('verify.')->prefix(VerifyController::BASE)->group(function () {
     Route::get('/', 'index');
 });
 

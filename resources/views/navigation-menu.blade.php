@@ -21,6 +21,9 @@
                     <x-nav-link href="{{ route('dashboard.') }}" :active="str_starts_with($route_name, 'dashboard.')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    <x-nav-link href="{{ route('verify.') }}" :active="str_starts_with($route_name, 'verify.')">
+                        {{ __('Verify') }}
+                    </x-nav-link>
                     <x-nav-link href="{{ route('draw.') }}" :active="str_starts_with($route_name, 'draw.')">
                         {{ __('Draw') }}
                     </x-nav-link>
@@ -149,8 +152,14 @@
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             {{-- <x-responsive-nav-link href="{{ route('dashboard.index') }}" :active="request()->routeIs('dashboard')"> --}}
-            <x-nav-link href="{{ route('dashboard.') }}" :active="str_starts_with($route_name, 'dashboard.')">
+            <x-responsive-nav-link href="{{ route('dashboard.') }}" :active="str_starts_with($route_name, 'dashboard.')">
                 {{ __('Dashboard') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link href="{{ route('verify.') }}" :active="str_starts_with($route_name, 'verify.')">
+                {{ __('Verify') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link href="{{ route('draw.') }}" :active="str_starts_with($route_name, 'draw.')">
+                {{ __('Draw') }}
             </x-responsive-nav-link>
         </div>
 

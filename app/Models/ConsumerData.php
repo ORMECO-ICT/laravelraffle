@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ConsumerData extends Model
 {
@@ -61,5 +62,8 @@ class ConsumerData extends Model
         return self::formatEntry($this->account_no, $this->account_code, $this->consumer_name);
     }
 
-
+    public function consumer_all(): BelongsTo
+    {
+        return $this->belongsTo(ConsumerAll::class, 'account_code', 'account_code');
+    }
 }
