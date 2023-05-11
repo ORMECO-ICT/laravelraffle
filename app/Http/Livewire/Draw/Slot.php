@@ -13,6 +13,7 @@ class Slot extends Component
 
     public $draw_number = 1;
     public $draw_prize_id = 1;
+    public $venue_id = '';
 
     public function mount()
     {
@@ -35,7 +36,13 @@ class Slot extends Component
     private function getPrizeId()
     {
         $prize = Settings::where('code', 'PRIZE')->first();
-        $this->draw_prize_id = $prize->id;
+        $this->draw_prize_id = $prize->value;
+    }
+
+    private function getVenueId()
+    {
+        $setting = Settings::where('code', 'VENUE')->first();
+        $this->venue_id = $setting->value == ''? '00' : $setting->value;
     }
 
     public function drawNumber()
@@ -51,11 +58,10 @@ class Slot extends Component
 
         $this->draw_number = $validatedData['draw_number'];
 
-        $venue = Settings::where('code', 'VENUE')->first();
-        $prize = Settings::where('code', 'PRIZE')->first();
-        $this->draw_prize_id = $prize->id;
+        $this->getVenueId();
+        $this->getPrizeId();
 
-        $luck_draw = DB::select("CALL sp_lucky_draw('" . $venue->value . "', 'N')");
+        $luck_draw = DB::select("CALL sp_lucky_draw('" . $this->venue_id . "', 'N')");
         $winner = [
             'dist_code'=> $luck_draw[0]->dist_code,
             'town_code'=> $luck_draw[0]->town_code,

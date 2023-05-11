@@ -13,7 +13,7 @@
         <link rel="icon" type="image/png" sizes="32x32" href="{{asset('assets/img/raffle-logo_100x100.ico')}}">
 
         <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @vite(['resources/css/app.css', 'resources/sass/app.scss', 'resources/js/app.js'])
 
         <!-- Styles -->
         @livewireStyles
@@ -40,6 +40,7 @@
         </div>
 
         @stack('modals')
+        @stack('js')
 
         @livewireScripts
     </body>

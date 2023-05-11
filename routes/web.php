@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DrawController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Livewire\Draw\Slot;
 
 /*
@@ -25,11 +26,19 @@ Route::middleware([
         return view('dashboard');
     })->name('home');
 
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    // Route::get('/dashboard', function () {
+    //     return view('dashboard');
+    // })->name('dashboard');
 
-    Route::get('slot', Slot::class);
+    // Route::get('slot', Slot::class);
+});
+
+Route::controller(DashboardController::class)->middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified'
+])->name('dashboard.')->prefix(DashboardController::BASE)->group(function () {
+    Route::get('/', 'index');
 });
 
 Route::controller(DrawController::class)->middleware([

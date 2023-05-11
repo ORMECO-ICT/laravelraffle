@@ -7,7 +7,7 @@
                 </button><button class="icon-button icon-button--small" id="settings-button">
                     <x-draw.button-settings />
                 </button>
-                <a class="icon-button icon-button--small" id="dashboard-button" href="{{ route('dashboard') }}">
+                <a class="icon-button icon-button--small" id="dashboard-button" href="{{ route('dashboard.') }}">
                     <x-draw.button-dashboard />
                 </a>
             </div>
