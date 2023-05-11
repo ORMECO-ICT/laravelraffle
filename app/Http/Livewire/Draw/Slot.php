@@ -24,6 +24,8 @@ class Slot extends Component
     {
         // $number = $this->draw_number;
         // return view('livewire.draw.slot', compact('number'));
+
+
         return view('livewire.draw.slot');
     }
 

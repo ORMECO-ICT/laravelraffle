@@ -49,7 +49,7 @@ class DashboardController extends Controller
 
             $venue = [
                 'code'=> $venue_code,
-                'name'=> $query->district_desc . ' - ' . $query->town_desc,
+                'name'=> $query->town_desc . ' ('. $query->district_desc .')',
                 'towns'=> []
             ];
         }

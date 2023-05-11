@@ -55,9 +55,12 @@
                 </div>
             </div>
             <div class="settings" id="settings">
-                <div class="settings__panel" id="settings-panel">
+                <div class="settings__panel" id="settings-panel" >
                     <div class="settings__panel__group">
-                        <h1 class="settings__title">List of Winners</h1>
+                        <button class="solid-button solid-button" style="display:none" id="settings-save">Save</button>
+                        <button class="solid-button solid-button--danger" style="margin: 1rem; width:20%; float:right;" id="settings-close">Close</button>
+                    </div>
+                    <div class="settings__panel__group">
                         <div class="input-group" style="display:none">
                             <label class="input-label" for="name-list">Name List</label>
                             <textarea class="input-field input-field--textarea" rows="8" placeholder="Separate each name by line break"
@@ -74,16 +77,82 @@
                                     class="slider"></span></label>
                         </div>
 
-                        {{ $dataTable->table() }}
+                        {{-- {{ $dataTable->table() }}
 
                         @push('js')
                             {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
-                        @endpush
+                        @endpush --}}
 
-                    </div>
-                    <div class="settings__panel__group">
-                        <button class="solid-button solid-button" style="display:none" id="settings-save">Save</button>
-                        <button class="solid-button solid-button--danger" id="settings-close">Close</button>
+                        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+                                <div class="p-6 lg:p-8 bg-white border-b border-gray-200">
+                                    <h1 class="settings__title">List of Winners</h1>
+
+                                    <p class="mt-6 text-gray-500 leading-relaxed">
+                                        {{ $dataTable->table() }}
+
+                                        @push('js')
+                                            {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
+                                        @endpush
+                                    </p>
+                                </div>
+                                <hr>
+                                <div class="p-6 lg:p-8 bg-white border-b border-gray-200">
+                                    <h1 class="settings__title">Selected Venue/Municipality</h1>
+                                    <div class="mt-6 text-gray-500 leading-relaxed">
+                                        <h3>{{ $venue['code'] }} : {{ $venue['name'] }}</h3>
+{{--
+                                        @if(count($venue['towns'])>0)
+                                        <ul class="text-black">
+                                            <li><h5>Coverage</h5></li>
+                                            @foreach($venue['towns'] as $town)
+                                                <li>> {{$town}}</li>
+                                            @endforeach
+                                        </ul>
+                                        @endif --}}
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="p-6 lg:p-8 bg-white border-b border-gray-200">
+                                    <h1 class="settings__title">Selected Prize</h1>
+                                    <div class="mt-6 text-gray-500 leading-relaxed">
+                                        <h3>{{ $prize['name'] }} : {{ $prize['name'] }}</h3>
+                                        @if(count($prize['items'])>0)
+                                        <table class="table dataTable table-striped table-bordered table-hover no-footer">
+                                            <colgroup>
+                                                <col width="5%">
+                                                <col width="15%">
+                                                <col width="40%">
+                                                <col width="30%">
+                                                <col width="5%">
+                                            </colgroup>
+                                            <thead>
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>Category</th>
+                                                    <th>Name</th>
+                                                    <th>Description</th>
+                                                    <th>Available</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach($prize['items'] as $item)
+                                                <tr>
+                                                    <td>{{$item->id}}</td>
+                                                    <td>{{$item->prize_category}}</td>
+                                                    <td>{{$item->prize_name}}</td>
+                                                    <td>{{$item->prize_desc}}</td>
+                                                    <td>{{$item->available_units}}</td>
+                                                </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
