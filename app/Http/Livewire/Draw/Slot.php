@@ -72,7 +72,8 @@ class Slot extends Component
 
         if (\Str::startsWith($this->venue_id, 'V')){
             $query = \DB::table('venue')->select('*')->where('venue_id', $this->venue_id)->first();
-            $this->draw_venue_name = $query->venue_name;
+            $towns = \DB::table('venue_town')->leftJoin('tbl_town', 'vt_town','=','town_code')->select('tbl_town.*')->where('vt_venue', $this->venue_id)->get()->pluck('town_desc')->toArray();
+            $this->draw_venue_name = $query->venue_name . (count($towns)>0? ('('.implode(',', $towns).')'):'');
         }elseif ($this->venue_id=='00'){
             $this->draw_venue_name = 'All Municipalities';
         }else{
