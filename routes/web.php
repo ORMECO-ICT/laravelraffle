@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DrawController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\VerifyController;
+use App\Http\Middleware\AdminAuth;
+use App\Http\Middleware\VerifierAuth;
 use App\Http\Livewire\Draw\Slot;
 
 /*
@@ -43,7 +45,8 @@ Route::controller(DashboardController::class)->middleware([
 Route::controller(VerifyController::class)->middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
-    'verified'
+    'verified',
+    VerifierAuth::class
 ])->name('verify.')->prefix(VerifyController::BASE)->group(function () {
     Route::get('/', 'index');
 });
@@ -51,18 +54,9 @@ Route::controller(VerifyController::class)->middleware([
 Route::controller(DrawController::class)->middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
-    'verified'
+    'verified',
+    AdminAuth::class
 ])->name('draw.')->prefix(DrawController::BASE)->group(function () {
     Route::get('/', 'index');
     Route::get('/ajax_source_winners', 'source_winners')->name('source_winners');
-    Route::get('/success', 'success')->name('success');
-    Route::get('/create', 'create')->name('create');
-    Route::post('/store', 'store')->name('store');
-
-    Route::get('/edit/{Portal?}', 'edit')->name('edit');
-    Route::post('/update', 'update')->name('update');
-
-    Route::get('/delete/{Portal?}', 'delete')->name('delete');
-    Route::post('/destroy', 'destroy')->name('destroy');
-    Route::get('/{Portal?}', 'show')->name('show');
 });

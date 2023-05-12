@@ -21,12 +21,16 @@
                     <x-nav-link href="{{ route('dashboard.') }}" :active="str_starts_with($route_name, 'dashboard.')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    @if(in_array(Auth::user()->role,['verify','admin']))
                     <x-nav-link href="{{ route('verify.') }}" :active="str_starts_with($route_name, 'verify.')">
                         {{ __('Verify') }}
                     </x-nav-link>
+                    @endif
+                    @if(in_array(Auth::user()->role,['admin']))
                     <x-nav-link href="{{ route('draw.') }}" :active="str_starts_with($route_name, 'draw.')">
                         {{ __('Draw') }}
                     </x-nav-link>
+                    @endif
                 </div>
             </div>
 
@@ -155,12 +159,16 @@
             <x-responsive-nav-link href="{{ route('dashboard.') }}" :active="str_starts_with($route_name, 'dashboard.')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+            @if(in_array(Auth::user()->role,['verify','admin']))
             <x-responsive-nav-link href="{{ route('verify.') }}" :active="str_starts_with($route_name, 'verify.')">
                 {{ __('Verify') }}
             </x-responsive-nav-link>
+            @endif
+            @if(in_array(Auth::user()->role,['admin']))
             <x-responsive-nav-link href="{{ route('draw.') }}" :active="str_starts_with($route_name, 'draw.')">
                 {{ __('Draw') }}
             </x-responsive-nav-link>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->
