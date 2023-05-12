@@ -45,7 +45,7 @@
                     </h1>
 
                     <div class="mt-6 text-gray-500 leading-relaxed">
-                        <h3>{{ $prize['name'] }} : {{ $prize['name'] }}</h3>
+                        <h3>{{ $prize['name'] }}</h3>
                         @if(count($prize['items'])>0)
                         <table class="table dataTable table-striped table-bordered table-hover no-footer">
                             <colgroup>

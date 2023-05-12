@@ -69,7 +69,7 @@ class DashboardController extends Controller
 
             $prize = [
                 'code'=> $prize_id,
-                'name'=> $query->prize_name,
+                'name'=> $query->prize_category . ' : ' . $query->prize_name,
                 'items'=> [$query]
             ];
         }

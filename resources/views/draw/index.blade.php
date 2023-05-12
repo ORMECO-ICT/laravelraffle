@@ -116,7 +116,7 @@
                                 <div class="p-6 lg:p-8 bg-white border-b border-gray-200">
                                     <h1 class="settings__title">Selected Prize</h1>
                                     <div class="mt-6 text-gray-500 leading-relaxed">
-                                        <h3>{{ $prize['name'] }} : {{ $prize['name'] }}</h3>
+                                        <h3>{{ $prize['name'] }}</h3>
                                         @if(count($prize['items'])>0)
                                         <table class="table dataTable table-striped table-bordered table-hover no-footer">
                                             <colgroup>

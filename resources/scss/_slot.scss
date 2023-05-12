@@ -107,6 +107,17 @@
     }
 
     @media (min-width: 768px) {
+        width: $slot-width * 0.7;
+        height: $slot-height * 0.7;
+        margin: 0 auto;
+
+        &__outer {
+          transform: scale(0.7);
+          transform-origin: top left;
+        }
+    }
+
+    @media (min-width: 1024px) {
         width: $slot-width * 0.8;
         height: $slot-height * 0.8;
         margin: 0 auto;
@@ -117,6 +128,12 @@
         }
     }
 }
+
+
+.hidden {
+    display: none;
+}
+
 
 // @import url('https://fonts.googleapis.com/css2?family=Bruno+Ace+SC&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Lilita+One&display=swap');

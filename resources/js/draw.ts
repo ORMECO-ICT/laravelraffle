@@ -18,6 +18,8 @@ import confetti from 'canvas-confetti';
     const enableSoundCheckbox = document.getElementById('enable-sound') as HTMLInputElement | null;
 
     const drawNextContainer = document.getElementById('draw-next') as HTMLElement;
+    const drawVenueContainer = document.getElementById('draw-venue') as HTMLElement;
+    const drawPrizeContainer = document.getElementById('draw-prize') as HTMLElement;
     const drawNumberInput = document.getElementById('draw-number') as HTMLInputElement | null;
     const reelWinnerContainer = document.querySelector('.reel-winner') as HTMLElement;
 
@@ -56,6 +58,8 @@ import confetti from 'canvas-confetti';
     }
 
     const soundEffects = new SoundEffects();
+    soundEffects.mute = true;
+
     const MAX_REEL_ITEMS = 40;
     const CONFETTI_COLORS = ['#26ccff', '#a25afd', '#ff5e7e', '#88ff5a', '#fcff42', '#ffa62d', '#ff36ff'];
     let confettiAnimationId;
@@ -177,15 +181,25 @@ import confetti from 'canvas-confetti';
         window.LaravelDataTables["table_raffle_winner"].draw(true);
     });
 
+    // window.addEventListener('onDrawNumber', (e) => {
+    //     console.log('onDrawNumber');
+    //     slot.number = e['detail'].number;
+    //     console.log(slot.number);
 
-    window.addEventListener('onDrawNumber', (e) => {
-        console.log('onDrawNumber');
-        slot.number = e['detail'].number;
-        console.log(slot.number);
+    //     drawNumberInput.value = slot.number.toString();
+    //     drawNextContainer.innerHTML = "Next Draw : #<b>" + slot.number + "</b>";
+    // });
 
-        drawNumberInput.value = slot.number.toString();
-        drawNextContainer.innerHTML = "Next Draw : #<b>" + slot.number + "</b>";
-    });
+    // window.addEventListener('onDrawVenue', (e) => {
+    //     console.log('onDrawVenue');
+    //     drawVenueContainer.innerHTML = "Venue : <b>" + e['detail'].name + "</b>";
+    // });
+
+
+    // window.addEventListener('onDrawPrize', (e) => {
+    //     console.log('onDrawPrize');
+    //     drawPrizeContainer.innerHTML = "Prize : <b>" + e['detail'].name + "</b>";
+    // });
     // ******************** END: LIVEWIRE HOOKS ***************************
 
 

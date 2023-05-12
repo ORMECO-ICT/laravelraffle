@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 
 class Slot extends Component
 {
+    public $draw_enabled = 'Y';
 
     public $draw_number = 1;
     public $draw_venue_name = '';
@@ -28,6 +29,7 @@ class Slot extends Component
         // $number = $this->draw_number;
         // return view('livewire.draw.slot', compact('number'));
 
+        $this->getDrawStatus();
         $this->getVenueId();
         $this->getPrizeId();
 
@@ -40,6 +42,16 @@ class Slot extends Component
         $this->draw_number = $result[0]->number;
     }
 
+    private function getDrawStatus()
+    {
+        $setting = Settings::where('code', 'ENABLED')->first();
+        $this->draw_enabled = $setting->value;
+
+        if ($this->draw_enabled==''){
+            $this->draw_enabled = 'Y';
+        }
+    }
+
     private function getPrizeId()
     {
         $setting = Settings::where('code', 'PRIZE')->first();
@@ -49,7 +61,7 @@ class Slot extends Component
             $this->draw_prize_name = '';
         }else{
             $query = \DB::table('raffle_prize')->select('*')->where('id', $this->draw_prize_id)->first();
-            $this->draw_prize_name = $query->prize_name;
+            $this->draw_prize_name =$query->prize_name . ' ('. $query->prize_category .')';
         }
     }
 
@@ -69,10 +81,28 @@ class Slot extends Component
         }
     }
 
-    public function drawNumber()
+    public function fetchDrawDetails()
     {
-        $this->dispatchBrowserEvent('onDrawNumber', ['number'=> $this->draw_number]);
+
     }
+
+    // public function drawNumber()
+    // {
+    //     $this->getLastDrawNumber();
+    //     $this->dispatchBrowserEvent('onDrawNumber', ['number'=> $this->draw_number]);
+    // }
+
+    // public function drawVenue()
+    // {
+    //     $this->getVenueId();
+    //     $this->dispatchBrowserEvent('onDrawVenue', ['name'=> $this->draw_venue_name]);
+    // }
+
+    // public function drawPrize()
+    // {
+    //     $this->getPrizeId();
+    //     $this->dispatchBrowserEvent('onDrawPrize', ['name'=> $this->draw_prize_name]);
+    // }
 
     public function draw()
     {
