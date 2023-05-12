@@ -78,7 +78,8 @@ class Slot extends Component
             $this->draw_venue_name = 'All Municipalities';
         }else{
             $query = \DB::table('tbl_town')->select('*')->where('dist_code', $this->venue_id)->first();
-            $this->draw_venue_name = $query->district_desc;
+            $towns = \DB::table('tbl_town')->where('dist_code', $this->venue_id)->get()->pluck('town_desc')->toArray();
+            $this->draw_venue_name = $query->district_desc . (count($towns)>0? ('('.implode(',', $towns).')'):'');
         }
     }
 
