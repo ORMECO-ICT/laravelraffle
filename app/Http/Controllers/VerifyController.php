@@ -31,8 +31,13 @@ class VerifyController extends Controller
             ->addColumn('consumer_data', function (ConsumerAll $consumer) {
                 if ($consumer->consumer_data)
                     return 'Registered';
-                else
-                    return '';
+                else{
+                    $code = $consumer->account_code;
+                    $name = $consumer->consumer_name;
+                    $town = $this->getTownDesc(substr($code, 0, 2));
+                    $contact = '';
+                    return view('verify.action-register', compact('code', 'name', 'town', 'contact'));
+                }
             })
             ->toJson();
 
@@ -40,5 +45,27 @@ class VerifyController extends Controller
         }
 
         return $dataTable->render('verify.index');
+    }
+
+    public function getTownDesc($town_code){
+        switch ($town_code) {
+            case '01': return 'Puerto Galera';
+            case '02': return 'San Teodoro';
+            case '03': return 'Baco';
+            case '04': return 'Calapan';
+            case '05': return 'Naujan';
+            case '06': return 'Victoria';
+            case '07': return 'Socorro';
+            case '08': return 'Pola';
+            case '09': return 'Pinamalayan';
+            case '10': return 'Gloria';
+            case '11': return 'Bansud';
+            case '12': return 'Bongabong';
+            case '13': return 'Roxas';
+            case '14': return 'Mansalay';
+            case '15': return 'Bulalacao';
+            default:
+              return 'Calapan';
+          }
     }
 }
