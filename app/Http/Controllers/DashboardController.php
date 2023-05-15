@@ -65,12 +65,14 @@ class DashboardController extends Controller
                 'items'=> $query,
             ];
         }else{
+            // $query = \DB::table('raffle_prize')->select('*')->where('id', $prize_id)->first();
             $query = \DB::table('raffle_prize')->select('*')->where('id', $prize_id)->first();
+            $items = \DB::table('raffle_prize')->select('*')->orderBy('prize_units')->get()->toArray();
 
             $prize = [
                 'code'=> $prize_id,
                 'name'=> $query->prize_category . ' : ' . $query->prize_name,
-                'items'=> [$query]
+                'items'=> $items
             ];
         }
 

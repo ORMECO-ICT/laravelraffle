@@ -11,6 +11,7 @@
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
         <link rel="icon" type="image/png" sizes="32x32" href="{{asset('assets/img/raffle-logo_100x100.ico')}}">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" >
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/sass/app.scss', 'resources/js/app.js'])
@@ -41,6 +42,12 @@
 
         @stack('modals')
         @stack('js')
+
+        <script>
+            document.addEventListener('livewire:load', () => {
+                Livewire.onPageExpired((response, message) => {})
+            })
+        </script>
 
         @livewireScripts
     </body>

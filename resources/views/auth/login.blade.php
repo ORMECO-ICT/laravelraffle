@@ -4,19 +4,19 @@
             <x-authentication-card-logo />
         </x-slot>
 
-        <x-validation-errors class="mb-4" />
-
         @if (session('status'))
             <div class="mb-4 font-medium text-sm text-green-600">
                 {{ session('status') }}
             </div>
+        @else
+            <x-validation-errors class="mb-4" />
         @endif
 
         <form method="POST" action="{{ route('login') }}">
             @csrf
 
             <div>
-                <x-label for="username" value="{{ __('Username') }}" />
+                <x-label for="username" value="{{ __('Username/Email') }}" />
                 <x-input id="username" class="block mt-1 w-full" type="text" name="username" :value="old('username')" required autofocus autocomplete="username" />
             </div>
 {{--
