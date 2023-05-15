@@ -40,12 +40,14 @@ class CreateNewUser implements CreatesNewUsers
         elseif ($input['auth_key'] == '0jt')
         $role='verify';
 
-        return User::create([
+        $user = User::create([
             'username' => $input['username'],
             'name' => $input['name'],
             'email' => $input['email'],
             'role' => $role,
             'password' => Hash::make($input['password']),
         ]);
+
+        return $user;
     }
 }
