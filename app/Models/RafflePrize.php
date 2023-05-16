@@ -4,14 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use App\Models\RafflePrize;
+use App\Models\RaffleWinner;
 
-class RaffleWinner extends Model
+class RafflePrize extends Model
 {
     use HasFactory;
 
-    const TABLE = 'raffle_winner';
+    const TABLE = 'raffle_prize';
     protected $table = self::TABLE;
     public $timestamps = false;
 
@@ -21,20 +20,13 @@ class RaffleWinner extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'dist_code',
-        'town_code',
-        'account_no',
-        'account_code',
-        'consumer_name',
-        'address',
-        'is_lifeline',
-        'regname',
-        'regaddress',
-        'contact',
-        'winner',
-        'win_draw',
-        'prize_id',
-        'entrydate',
+        'id',
+        'prize_category',
+        'prize_name',
+        'prize_desc',
+        'prize_units',
+        'lifeline_only',
+        'available_units',
     ];
 
     /**
@@ -51,15 +43,14 @@ class RaffleWinner extends Model
      * @var array<string, string>
      */
     protected $casts = [
-        'entrydate' => 'datetime',
     ];
 
 
     /**
      * Get the phone associated with the user.
      */
-    public function raffle_prize(): HasOne
+    public function raffle_winner(): HasMany
     {
-        return $this->hasOne(RafflePrize::class, 'id', 'prize_id');
+        return $this->hasMany(RaffleWinner::class, 'id', 'prize_id');
     }
 }

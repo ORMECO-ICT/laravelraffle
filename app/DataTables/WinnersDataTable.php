@@ -69,8 +69,10 @@ class WinnersDataTable extends DataTable
             //       ->addClass('text-center'),
             Column::make('win_draw')->title('Draw')->width('5%')->addClass('text-center'),
             Column::make('account_code')->title('Account')->width('15%')->addClass('text-center'),
-            Column::make('consumer_name')->title('Name')->width('30%'),
-            Column::make('address')->width('40%'),
+            Column::make('consumer_name')->title('Name')->width('25%'),
+            Column::make('address')->width('30%'),
+            Column::make('raffle_prize.prize_name')
+                ->title('Prize')->width('20%')->addClass('text-center'),
         ];
     }
 

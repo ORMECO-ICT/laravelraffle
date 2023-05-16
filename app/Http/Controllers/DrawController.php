@@ -27,7 +27,16 @@ class DrawController extends Controller
     public function index(WinnersDataTable $dataTable)
     {
         if (request()->ajax()) {
-            return \DataTables::of(RaffleWinner::query())->toJson();
+
+            $model = RaffleWinner::with('raffle_prize')->select('raffle_winner.*');
+
+            return \DataTables::eloquent($model)
+            // ->addColumn('raffle_prize', function(RafflePrize $prize){
+            //     return $prize->prize_name;
+            // })
+            ->toJson();
+
+            // return \DataTables::of(RaffleWinner::query())->toJson();
         }
 
         $setting = Settings::where('code', 'VENUE')->first();
