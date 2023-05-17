@@ -31,9 +31,9 @@ class DrawController extends Controller
             $model = RaffleWinner::with('raffle_prize')->select('raffle_winner.*');
 
             return \DataTables::eloquent($model)
-            // ->addColumn('raffle_prize', function(RafflePrize $prize){
-            //     return $prize->prize_name;
-            // })
+            ->addColumn('raffle_prize', function(RaffleWinner $winner){
+                return $winner->raffle_prize->prize_name;
+            })
             ->toJson();
 
             // return \DataTables::of(RaffleWinner::query())->toJson();

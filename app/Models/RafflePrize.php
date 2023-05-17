@@ -20,7 +20,6 @@ class RafflePrize extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'id',
         'prize_category',
         'prize_name',
         'prize_desc',

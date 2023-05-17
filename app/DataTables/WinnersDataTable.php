@@ -23,6 +23,9 @@ class WinnersDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             // ->addColumn('action', 'winners.action')
+            ->addColumn('raffle_prize', function(RaffleWinner $winner){
+                return $winner->raffle_prize->prize_name;
+            })
             ->setRowId('win_draw');
     }
 
@@ -71,8 +74,10 @@ class WinnersDataTable extends DataTable
             Column::make('account_code')->title('Account')->width('15%')->addClass('text-center'),
             Column::make('consumer_name')->title('Name')->width('25%'),
             Column::make('address')->width('30%'),
-            Column::make('raffle_prize.prize_name')
+            Column::computed('raffle_prize')
                 ->title('Prize')->width('20%')->addClass('text-center'),
+                // Column::make('raffle_prize.prize_name')
+                //     ->title('Prize')->width('20%')->addClass('text-center'),
         ];
     }
 

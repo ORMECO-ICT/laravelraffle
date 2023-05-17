@@ -8,7 +8,6 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\View;
 use Illuminate\Http\Request;
 use App\Models\RaffleWinner;
-use App\Models\RafflePrize;
 use App\Models\Settings;
 use App\DataTables\WinnersDataTable;
 
@@ -26,9 +25,9 @@ class DashboardController extends Controller
             $model = RaffleWinner::with('raffle_prize')->select('raffle_winner.*');
 
             return \DataTables::eloquent($model)
-            // ->addColumn('raffle_prize', function(RafflePrize $prize){
-            //     return $prize->prize_name;
-            // })
+            ->addColumn('raffle_prize', function(RaffleWinner $winner){
+                return $winner->raffle_prize->prize_name;
+            })
             ->toJson();
             // return \DataTables::of(RaffleWinner::query())->toJson();
         }
