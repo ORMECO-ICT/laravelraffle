@@ -55,17 +55,6 @@
 
                         @push('js')
                             {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
-
-
-                            <script>
-                                import jQuery from 'jquery';
-                                window.$ = jQuery;
-                                $(document).ready(function() {
-                                    $('.create').on('click', function() {
-                                        alert('Hey!');
-                                    });
-                                });
-                            </script>
                         @endpush
                     </p>
                 </div>

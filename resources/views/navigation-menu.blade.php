@@ -22,6 +22,11 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                     @if(in_array(Auth::user()->role,['verify','admin']))
+                    <x-nav-link href="{{ route('registration.') }}" :active="str_starts_with($route_name, 'registration.')">
+                        {{ __('Registration') }}
+                    </x-nav-link>
+                    @endif
+                    @if(in_array(Auth::user()->role,['verify','admin']))
                     <x-nav-link href="{{ route('verify.') }}" :active="str_starts_with($route_name, 'verify.')">
                         {{ __('Verify') }}
                     </x-nav-link>
@@ -169,6 +174,11 @@
             <x-responsive-nav-link href="{{ route('dashboard.') }}" :active="str_starts_with($route_name, 'dashboard.')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+            @if(in_array(Auth::user()->role,['verify','admin']))
+            <x-responsive-nav-link href="{{ route('registration.') }}" :active="str_starts_with($route_name, 'registration.')">
+                {{ __('Registration') }}
+            </x-responsive-nav-link>
+            @endif
             @if(in_array(Auth::user()->role,['verify','admin']))
             <x-responsive-nav-link href="{{ route('verify.') }}" :active="str_starts_with($route_name, 'verify.')">
                 {{ __('Verify') }}

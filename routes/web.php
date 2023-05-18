@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\VerifyController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\ManualDrawController;
+use App\Http\Controllers\RegistrationController;
 use App\Http\Middleware\AdminAuth;
 use App\Http\Middleware\VerifierAuth;
 use App\Http\Livewire\Draw\Slot;
@@ -43,6 +44,16 @@ Route::controller(DashboardController::class)->middleware([
 ])->name('dashboard.')->prefix(DashboardController::BASE)->group(function () {
     Route::get('/', 'index');
     Route::get('/ajax-online-winners', 'ajaxOnlineWinners')->name('ajax-online-winners');
+});
+
+Route::controller(RegistrationController::class)->middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified'
+])->name('registration.')->prefix(RegistrationController::BASE)->group(function () {
+    Route::get('/', 'index');
+    Route::get('/ajax-data', 'ajaxData')->name('ajax-data');
+    Route::get('/ajax-raffle-entries', 'ajaxRaffleEntries')->name('ajax-raffle-entries');
 });
 
 Route::controller(ManualDrawController::class)->middleware([
