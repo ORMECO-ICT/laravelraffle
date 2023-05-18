@@ -3,6 +3,9 @@
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Registration Summary') }}
         </h2>
+        <div class="text-gray-500">
+            Data as of {{$dateAsOf}}
+        </div>
     </x-slot>
 
     <div class="py-12 pb-0">

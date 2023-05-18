@@ -22,9 +22,13 @@ class RegistrationController extends Controller
 
     public function index(GoogleDataTable $dataTable, RaffleEntriesDataTable $dataTableRaffle)
     {
+
+        $last = \DB::table('google_data')->select(\DB::raw('MAX(regdate) asof'))->first();
+        $asof = $last->asof;
         return view('registration.index', [
             'dataTable' => $dataTable->html(),
             'dataTableRaffle' => $dataTableRaffle->html(),
+            'dateAsOf' => $asof,
         ]);
     }
 

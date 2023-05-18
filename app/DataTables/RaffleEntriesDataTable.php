@@ -73,7 +73,7 @@ class RaffleEntriesDataTable extends DataTable
             //       ->width(60)
             //       ->addClass('text-center'),
             // Column::make('account_no')->title('No')->width('5%')->addClass('text-center'),
-            Column::make('account_code')->title('Account Number')->width('15%')->addClass('text-center'),
+            Column::make('account_code')->title('Account Number')->width('20%')->addClass('text-center'),
             Column::make('consumer_name')->title('Name')->width('35%'),
             Column::make('address')->width('50%'),
             Column::make('contact')
