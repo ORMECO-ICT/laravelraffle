@@ -15,7 +15,18 @@
         <form method="POST" action="{{ route('register') }}">
             @csrf
 
+            @php
+                $venues = \DB::table('venue')->select('*')->whereNot('venue_id', 'V00')->get();
+            @endphp
             <div>
+                <x-label for="venue_id" value="{{ __('Assigned Venue') }}" />
+                <select name="venue_id" id="venue_id" class="form-control border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mb-2 mt-2" style="width:100%" required autofocus >
+                    @foreach($venues as $venue)
+                      <option value="{{ $venue->venue_id }}" {{ $venue->venue_id==old('venue_id')? 'selected':''}}>{{ $venue->venue_name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="mt-4">
                 <x-label for="name" value="{{ __('Name') }}" />
                 <x-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
             </div>

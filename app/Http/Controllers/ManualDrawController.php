@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
@@ -10,6 +11,8 @@ use Illuminate\Http\Request;
 use App\Models\RaffleWinnerManual;
 use App\Models\Settings;
 use App\DataTables\ManualWinnersDataTable;
+
+use App\Http\Requests\ManualDraw\StoreRequest;
 
 class ManualDrawController extends Controller
 {
@@ -21,20 +24,36 @@ class ManualDrawController extends Controller
 
     public function index(ManualWinnersDataTable $dataTable)
     {
-        if (request()->ajax()) {
-            $model = RaffleWinnerManual::with('raffle_prize')->select('raffle_winner_manual.*');
+        // if (request()->ajax()) {
+        //     $model = RaffleWinnerManual::with('raffle_prize')->with('venue')->select('raffle_winner_manual.*');
 
-            return \DataTables::eloquent($model)
-            ->addColumn('raffle_prize', function(RaffleWinnerManual $winner){
-                return $winner->raffle_prize->prize_name;
-            })
-            ->toJson();
-            // return \DataTables::of(RaffleWinnerManual::query())->toJson();
-        }
+        //     return \DataTables::eloquent($model)
+        //     ->addColumn('raffle_prize', function(RaffleWinnerManual $winner){
+        //         return $winner->raffle_prize->prize_name;
+        //     })
+        //     ->addColumn('venue', function(RaffleWinnerManual $winner){
+        //         return $winner->venue->venue_name;
+        //     })
+        //     ->toJson();
+        //     // return \DataTables::of(RaffleWinnerManual::query())->toJson();
+        // }
 
-        $setting = Settings::where('code', 'VENUE')->first();
-        $venue_code = $setting->value == ''? '00' : $setting->value;
-        if (\Str::startsWith($venue_code, 'V')){
+        $venue = $this->getVenue();
+
+        return $dataTable->render('manual-draw.index', compact("venue"));
+    }
+
+    private function getVenue()
+    {
+        $user = \Auth::user();
+        $venue_code =  $user->venue_id;
+        if ($user->venue_id == ''){
+            $venue = [
+                'code'=> '',
+                'name'=> 'Contact admin for assignment of venue!',
+                'towns'=> [],
+            ];
+        }elseif(\Str::startsWith($venue_code, 'V')){
             $query = \DB::table('venue')->select('*')->where('venue_id', $venue_code)->first();
             $towns = \DB::table('venue_town')->leftJoin('tbl_town', 'vt_town','=','town_code')->select('tbl_town.*')->where('vt_venue', $venue_code)->get();
 
@@ -42,14 +61,6 @@ class ManualDrawController extends Controller
                 'code'=> $venue_code,
                 'name'=> $query->venue_name,
                 'towns'=> $towns->pluck('town_desc'),
-            ];
-        }elseif ($venue_code=='00'){
-            $query = \DB::table('tbl_town')->select('*')->get();
-
-            $venue = [
-                'code'=> $venue_code,
-                'name'=> 'All Municipalities',
-                'towns'=> $query->pluck('town_desc'),
             ];
         }else{
             $query = \DB::table('tbl_town')->select('*')->where('dist_code', $venue_code)->first();
@@ -61,33 +72,50 @@ class ManualDrawController extends Controller
                 'towns'=> $towns->pluck('town_desc'),
             ];
         }
-
-        $setting = Settings::where('code', 'PRIZE')->first();
-        $prize_id = $setting->value;
-        if ($prize_id==''){
-            $query = \DB::table('raffle_prize')->select('*')->get();
-            $prize = [
-                'code'=> $prize_id,
-                'name'=> 'No prize is selected!',
-                'items'=> $query,
-            ];
-        }else{
-            // $query = \DB::table('raffle_prize')->select('*')->where('id', $prize_id)->first();
-            $query = \DB::table('raffle_prize')->select('*')->where('id', $prize_id)->first();
-            $items = \DB::table('raffle_prize')->select('*')->orderBy('prize_units')->get()->toArray();
-
-            $prize = [
-                'code'=> $prize_id,
-                'name'=> $query->prize_category . ' : ' . $query->prize_name,
-                'items'=> $items
-            ];
-        }
-
-        // dd($prize);
-
-        // return response(view("dashboard", compact("dataTable")));
-        return $dataTable->render('manual-draw.index', compact("venue", "prize"));
+        return $venue;
     }
 
+    public function ajaxTambioloWinners(ManualWinnersDataTable $dataTable)
+    {
+        if (request()->ajax()) {
+            $user = \Auth::user();
+            $venue_id =  $user->venue_id;
+            $model = RaffleWinnerManual::with('raffle_prize')->with('venue')->select('raffle_winner_manual.*');
+            if($venue_id != '')
+                $model = $model->where('venue_id', $venue_id);
+
+            return \DataTables::eloquent($model)
+            ->addColumn('raffle_prize', function(RaffleWinnerManual $winner){
+                return $winner->raffle_prize->prize_name;
+            })
+            ->addColumn('venue', function(RaffleWinnerManual $winner){
+                return $winner->venue->venue_name;
+            })
+            ->toJson();
+            // return \DataTables::of(RaffleWinnerManual::query())->toJson();
+        }
+    }
+
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create(): Response
+    {
+        $venue = $this->getVenue();
+        return response(view("manual-draw.create", compact("venue")));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(StoreRequest  $request): RedirectResponse
+    {
+        $validatedData = $request->validated();
+        // dd($validatedData);
+        // $validatedData['password'] = bcrypt($validatedData['password']);
+        $portal = RaffleWinnerManual::create($validatedData);
+        return redirect()->route('manual-draw.')->with('success', 'Record saved successfully.');
+    }
 
 }

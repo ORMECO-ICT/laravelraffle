@@ -10,7 +10,7 @@
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                 <div class="p-6 lg:p-8 bg-white border-b border-gray-200">
                     <h1 class="mt-4 text-2xl font-medium text-gray-900">
-                        List of Winners
+                        List of Online Winners
                     </h1>
 
                     <p class="mt-6 text-gray-500 leading-relaxed">
@@ -22,7 +22,20 @@
                     </p>
                 </div>
                 <div class="p-6 lg:p-8 bg-white border-b border-gray-200">
-                    <h1 class="mt-4 text-2xl font-medium text-gray-900">
+                    <h1 class="text-2xl font-medium text-gray-900">
+                        List of Tambiolo Winners
+                    </h1>
+
+                    <p class="mt-6 text-gray-500 leading-relaxed">
+                        {{ $dataTableManual->table() }}
+
+                        @push('js')
+                            {{ $dataTableManual->scripts(attributes: ['type' => 'module']) }}
+                        @endpush
+                    </p>
+                </div>
+                <div class="p-6 lg:p-8 bg-white border-b border-gray-200">
+                    <h1 class="text-2xl font-medium text-gray-900">
                         Selected Venue/District
                     </h1>
 
@@ -40,13 +53,16 @@
                     </div>
                 </div>
                 <div class="p-6 lg:p-8 bg-white border-b border-gray-200">
-                    <h1 class="mt-4 text-2xl font-medium text-gray-900">
+                    <h1 class="text-2xl font-medium text-gray-900">
                         Selected Prize
                     </h1>
 
                     <div class="mt-6 text-gray-500 leading-relaxed">
                         <h3>{{ $prize['name'] }}</h3>
                         @if(count($prize['items'])>0)
+                        <h1 class="mt-4 text-2xl font-medium text-gray-900">
+                            List of Prizes
+                        </h1>
                         <table class="table dataTable table-striped table-bordered table-hover no-footer">
                             <colgroup>
                                 <col width="5%">

@@ -44,6 +44,7 @@ class ConsumersDataTable extends DataTable
                     ->setTableId('table_consumers')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
+                    ->searchDelay(1000)
                     //->dom('Bfrtip')
                     ->orderBy(1, 'asc')
                     ->selectStyleSingle()

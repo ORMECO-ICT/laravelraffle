@@ -23,8 +23,11 @@ class ManualWinnersDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             // ->addColumn('action', 'winners.action')
-            ->addColumn('raffle_prize', function(RaffleWinner $winner){
+            ->addColumn('raffle_prize', function(RaffleWinnerManual  $winner){
                 return $winner->raffle_prize->prize_name;
+            })
+            ->addColumn('venue', function(RaffleWinnerManual  $winner){
+                return $winner->venue->venue_name;
             })
             ->setRowId('id');
     }
@@ -45,13 +48,14 @@ class ManualWinnersDataTable extends DataTable
         return $this->builder()
                     ->setTableId('table_raffle_winner_manual')
                     ->columns($this->getColumns())
-                    ->minifiedAjax()
+                    // ->minifiedAjax()
+                    ->minifiedAjax( route('manual-draw.ajax-tambiolo-winners') )
                     ->orderBy(0)
-                    //->dom('Bfrtip')
+                    ->dom('Bfrtip')
                     ->selectStyleSingle()
                     ->buttons([
-                        Button::make('excel'),
-                        Button::make('csv'),
+                        // Button::make('excel'),
+                        // Button::make('csv'),
                         Button::make('pdf'),
                         Button::make('print'),
                         Button::make('reset'),
@@ -71,9 +75,10 @@ class ManualWinnersDataTable extends DataTable
             //       ->width(60)
             //       ->addClass('text-center'),
             Column::make('id')->title('Draw')->width('5%')->addClass('text-center'),
+            Column::make('venue')->title('Venue')->width('15%')->addClass('text-center'),
             Column::make('account_code')->title('Account')->width('15%')->addClass('text-center'),
             Column::make('consumer_name')->title('Name')->width('25%'),
-            Column::make('address')->width('30%'),
+            Column::make('address')->width('25%'),
             Column::computed('raffle_prize')
                 ->title('Prize')->width('20%')->addClass('text-center'),
         ];
@@ -84,6 +89,6 @@ class ManualWinnersDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Winners_tambyolo_' . date('YmdHis');
+        return 'Winners_tambiolo_' . date('YmdHis');
     }
 }

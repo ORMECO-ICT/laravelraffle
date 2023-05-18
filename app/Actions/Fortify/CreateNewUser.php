@@ -24,6 +24,7 @@ class CreateNewUser implements CreatesNewUsers
         Validator::make($input, [
             'username' => ['required', 'string', 'max:50'],
             'name' => ['required', 'string', 'max:255'],
+            'venue_id' => ['required', 'string', 'max:3'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => $this->passwordRules(),
             'auth_key' => ['required', 'string', 'max:20', 'in:'.implode(",", $auth_keys)],
@@ -33,9 +34,9 @@ class CreateNewUser implements CreatesNewUsers
         $role = '';
         if ($input['auth_key'] == '@gma41!')
         $role='admin';
-        elseif ($input['auth_key'] == 'verify')
+        elseif ($input['auth_key'] == 'verify!')
         $role='verify';
-        elseif ($input['auth_key'] == 'viewer')
+        elseif ($input['auth_key'] == 'viewer!')
         $role='user';
         elseif ($input['auth_key'] == '0jt')
         $role='verify';
@@ -44,6 +45,7 @@ class CreateNewUser implements CreatesNewUsers
             'username' => $input['username'],
             'name' => $input['name'],
             'email' => $input['email'],
+            'venue_id' => $input['venue_id'],
             'role' => $role,
             'password' => Hash::make($input['password']),
         ]);

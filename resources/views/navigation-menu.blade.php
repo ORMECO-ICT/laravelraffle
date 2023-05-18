@@ -33,7 +33,7 @@
                     @endif
                     @if(in_array(Auth::user()->role,['admin']))
                     <x-nav-link href="{{ route('manual-draw.') }}" :active="str_starts_with($route_name, 'manual-draw.')">
-                        {{ __('Manual Draw') }}
+                        {{ __('Tambiolo Draw') }}
                     </x-nav-link>
                     @endif
                     @if(in_array(Auth::user()->role,['admin']))
@@ -176,7 +176,7 @@
             @endif
             @if(in_array(Auth::user()->role,['admin']))
             <x-responsive-nav-link href="{{ route('manual-draw.') }}" :active="str_starts_with($route_name, 'manual-draw.')">
-                {{ __('Manual Draw') }}
+                {{ __('Tambiolo Draw') }}
             </x-responsive-nav-link>
             @endif
             @if(in_array(Auth::user()->role,['admin']))

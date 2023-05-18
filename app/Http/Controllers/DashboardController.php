@@ -8,8 +8,10 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\View;
 use Illuminate\Http\Request;
 use App\Models\RaffleWinner;
+use App\Models\RaffleWinnerManual;
 use App\Models\Settings;
 use App\DataTables\WinnersDataTable;
+use App\DataTables\ManualWinnersDataTable;
 
 class DashboardController extends Controller
 {
@@ -19,18 +21,18 @@ class DashboardController extends Controller
     {
     }
 
-    public function index(WinnersDataTable $dataTable)
+    public function index(WinnersDataTable $dataTable, ManualWinnersDataTable $dataTableManual)
     {
-        if (request()->ajax()) {
-            $model = RaffleWinner::with('raffle_prize')->select('raffle_winner.*');
+        // if (request()->ajax()) {
+        //     $model = RaffleWinner::with('raffle_prize')->select('raffle_winner.*');
 
-            return \DataTables::eloquent($model)
-            ->addColumn('raffle_prize', function(RaffleWinner $winner){
-                return $winner->raffle_prize->prize_name;
-            })
-            ->toJson();
-            // return \DataTables::of(RaffleWinner::query())->toJson();
-        }
+        //     return \DataTables::eloquent($model)
+        //     ->addColumn('raffle_prize', function(RaffleWinner $winner){
+        //         return $winner->raffle_prize->prize_name;
+        //     })
+        //     ->toJson();
+        //     // return \DataTables::of(RaffleWinner::query())->toJson();
+        // }
 
         $setting = Settings::where('code', 'VENUE')->first();
         $venue_code = $setting->value == ''? '00' : $setting->value;
@@ -83,11 +85,30 @@ class DashboardController extends Controller
             ];
         }
 
-        // dd($prize);
-
         // return response(view("dashboard", compact("dataTable")));
-        return $dataTable->render('dashboard', compact("venue", "prize"));
+        // return $dataTable->render('dashboard', compact("venue", "prize"));
+        return view('dashboard', [
+            'dataTable' => $dataTable->html(),
+            'dataTableManual' => $dataTableManual->html(),
+            'venue' => $venue,
+            'prize' => $prize
+        ]);
     }
+
+    public function ajaxOnlineWinners(WinnersDataTable $dataTable)
+    {
+        if (request()->ajax()) {
+            $model = RaffleWinner::with('raffle_prize')->select('raffle_winner.*');
+
+            return \DataTables::eloquent($model)
+            ->addColumn('raffle_prize', function(RaffleWinner $winner){
+                return $winner->raffle_prize->prize_name;
+            })
+            ->toJson();
+            // return \DataTables::of(RaffleWinner::query())->toJson();
+        }
+    }
+
 
 
 }

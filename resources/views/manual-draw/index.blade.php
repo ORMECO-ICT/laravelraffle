@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Tambiolo Draw on Venues') }}
+            {{ __('Tambiolo Draw on Assigned Venue') }}
         </h2>
     </x-slot>
 
@@ -9,75 +9,65 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                 <div class="p-6 lg:p-8 bg-white border-b border-gray-200">
-                    <h1 class="mt-4 text-2xl font-medium text-gray-900">
-                        List of Winners via Tambiolo Draw
-                    </h1>
 
-                    <p class="mt-6 text-gray-500 leading-relaxed">
-                        {{ $dataTable->table() }}
+                    @if (session('status'))
+                        <div class="mb-4 font-medium text-sm text-green-600">
+                            {{ session('status') }}
+                        </div>
+                    @else
+                        <x-validation-errors class="mb-4" />
+                    @endif
 
-                        @push('js')
-                            {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
-                        @endpush
-                    </p>
-                </div>
-                <div class="p-6 lg:p-8 bg-white border-b border-gray-200">
                     <h1 class="mt-4 text-2xl font-medium text-gray-900">
-                        Selected Venue/District
+                        Assigned Venue/District
                     </h1>
 
                     <div class="mt-6 text-gray-500 leading-relaxed">
                         <h3>{{ $venue['code'] }} : {{ $venue['name'] }}</h3>
 
-                        @if(count($venue['towns'])>0)
-                        <ul class="text-black">
-                            <li><h5>Coverage</h5></li>
-                            @foreach($venue['towns'] as $town)
-                                <li>> {{$town}}</li>
-                            @endforeach
-                        </ul>
-                        @endif
+                        {{-- @if (count($venue['towns']) > 0)
+                            <ul class="text-black">
+                                <li>
+                                    <h5>Coverage</h5>
+                                </li>
+                                @foreach ($venue['towns'] as $town)
+                                    <li>> {{ $town }}</li>
+                                @endforeach
+                            </ul>
+                        @endif --}}
                     </div>
                 </div>
                 <div class="p-6 lg:p-8 bg-white border-b border-gray-200">
-                    <h1 class="mt-4 text-2xl font-medium text-gray-900">
-                        Selected Prize
+                    <h1 class="text-2xl font-medium text-gray-900">
+                        List of Winners via Tambiolo Draw
                     </h1>
+                    @if($venue['code']!='')
+                    <a href="{{ route('manual-draw.create') }}" class="btn btn-success w-1x1">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </a>
+                    @endif
+                    <p class="mt-6 text-gray-500 leading-relaxed">
+                        {{ $dataTable->table() }}
 
-                    <div class="mt-6 text-gray-500 leading-relaxed">
-                        <h3>{{ $prize['name'] }}</h3>
-                        @if(count($prize['items'])>0)
-                        <table class="table dataTable table-striped table-bordered table-hover no-footer">
-                            <colgroup>
-                                <col width="5%">
-                                <col width="15%">
-                                <col width="40%">
-                                <col width="30%">
-                                <col width="5%">
-                            </colgroup>
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Category</th>
-                                    <th>Name</th>
-                                    <th>Description</th>
-                                    <th>Available</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($prize['items'] as $item)
-                                <tr>
-                                    <td>{{$item->id}}</td>
-                                    <td>{{$item->prize_category}}</td>
-                                    <td>{{$item->prize_name}}</td>
-                                    <td>{{$item->prize_desc}}</td>
-                                    <td>{{$item->available_units}}</td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                        @endif
-                    </div>
+                        @push('js')
+                            {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
+
+
+                            <script>
+                                import jQuery from 'jquery';
+                                window.$ = jQuery;
+                                $(document).ready(function() {
+                                    $('.create').on('click', function() {
+                                        alert('Hey!');
+                                    });
+                                });
+                            </script>
+                        @endpush
+                    </p>
                 </div>
             </div>
         </div>

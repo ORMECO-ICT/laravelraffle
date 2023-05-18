@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use App\Models\RafflePrize;
+use App\Models\Venue;
 
 class RaffleWinnerManual extends Model
 {
@@ -56,5 +57,13 @@ class RaffleWinnerManual extends Model
     public function raffle_prize(): HasOne
     {
         return $this->hasOne(RafflePrize::class, 'id', 'prize_id');
+    }
+
+    /**
+     * Get the phone associated with the user.
+     */
+    public function venue(): HasOne
+    {
+        return $this->hasOne(Venue::class, 'venue_id', 'venue_id');
     }
 }

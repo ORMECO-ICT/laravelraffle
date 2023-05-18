@@ -45,13 +45,15 @@ class WinnersDataTable extends DataTable
         return $this->builder()
                     ->setTableId('table_raffle_winner')
                     ->columns($this->getColumns())
-                    ->minifiedAjax()
+                    ->minifiedAjax( route('dashboard.ajax-online-winners') )
+                    // ->minifiedAjax()
                     ->orderBy(0)
+                    ->searchDelay(500)
                     //->dom('Bfrtip')
                     ->selectStyleSingle()
                     ->buttons([
-                        Button::make('excel'),
-                        Button::make('csv'),
+                        // Button::make('excel'),
+                        // Button::make('csv'),
                         Button::make('pdf'),
                         Button::make('print'),
                         Button::make('reset'),

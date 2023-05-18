@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('raffle_winner_manual', function (Blueprint $table) {
             $table->id();
-            $table->string('venue_id', 20)->nullable();
+            $table->string('venue_id', 3)->nullable();
             $table->string('dist_code', 3)->nullable();
             $table->string('town_code', 3)->nullable();
             $table->string('account_no', 20)->nullable();
@@ -25,8 +25,8 @@ return new class extends Migration
             $table->string('regaddress', 150)->nullable();
             $table->string('contact', 150)->nullable();
             $table->char('winner', 1)->nullable()->default('N');
-            $table->integer('win_draw', 11)->nullable()->change();
-            $table->integer('prize_id', 11)->nullable()->change();
+            $table->integer('win_draw', false)->nullable();
+            $table->integer('prize_id', false)->nullable();
             $table->timestamp('entrydate')->nullable()->default(\DB::raw('CURRENT_TIMESTAMP()'));
         });
     }

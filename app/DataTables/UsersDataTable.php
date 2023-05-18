@@ -66,6 +66,7 @@ class UsersDataTable extends DataTable
     {
         return [
             Column::make('role')->title('Role')->width('10%')->addClass('text-center'),
+            Column::make('venue_id')->title('Venue')->width('10%')->addClass('text-center'),
             Column::make('name')->title('Name')->width('35%'),
             Column::make('email')->title('Email')->width('15%'),
             Column::make('created_at')->title('Registration')->width('20%'),

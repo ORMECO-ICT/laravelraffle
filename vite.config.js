@@ -15,6 +15,7 @@ export default defineConfig({
                 'resources/scss/draw.scss',
                 'resources/js/app.js',
                 'resources/js/draw.ts',
+                'resources/js/datatables/buttons.server-side.js',
             ],
             refresh: [
                 ...refreshPaths,

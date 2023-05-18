@@ -42,14 +42,19 @@ Route::controller(DashboardController::class)->middleware([
     'verified'
 ])->name('dashboard.')->prefix(DashboardController::BASE)->group(function () {
     Route::get('/', 'index');
+    Route::get('/ajax-online-winners', 'ajaxOnlineWinners')->name('ajax-online-winners');
 });
 
 Route::controller(ManualDrawController::class)->middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
-    'verified'
+    'verified',
+    AdminAuth::class
 ])->name('manual-draw.')->prefix(ManualDrawController::BASE)->group(function () {
     Route::get('/', 'index');
+    Route::get('/ajax-tambiolo-winners', 'ajaxTambioloWinners')->name('ajax-tambiolo-winners');
+    Route::get('/create', 'create')->name('create');
+    Route::post('/store', 'store')->name('store');
 });
 
 Route::controller(VerifyController::class)->middleware([
@@ -68,7 +73,6 @@ Route::controller(UsersController::class)->middleware([
     AdminAuth::class
 ])->name('users.')->prefix(UsersController::BASE)->group(function () {
     Route::get('/', 'index');
-    Route::get('/ajax_source_winners', 'source_winners')->name('source_winners');
 });
 
 Route::controller(DrawController::class)->middleware([
@@ -78,5 +82,4 @@ Route::controller(DrawController::class)->middleware([
     AdminAuth::class
 ])->name('draw.')->prefix(DrawController::BASE)->group(function () {
     Route::get('/', 'index');
-    Route::get('/ajax_source_winners', 'source_winners')->name('source_winners');
 });
