@@ -5,6 +5,7 @@ use App\Http\Controllers\DrawController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\VerifyController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\ManualDrawController;
 use App\Http\Middleware\AdminAuth;
 use App\Http\Middleware\VerifierAuth;
 use App\Http\Livewire\Draw\Slot;
@@ -40,6 +41,14 @@ Route::controller(DashboardController::class)->middleware([
     config('jetstream.auth_session'),
     'verified'
 ])->name('dashboard.')->prefix(DashboardController::BASE)->group(function () {
+    Route::get('/', 'index');
+});
+
+Route::controller(ManualDrawController::class)->middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified'
+])->name('manual-draw.')->prefix(ManualDrawController::BASE)->group(function () {
     Route::get('/', 'index');
 });
 

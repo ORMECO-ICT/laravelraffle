@@ -32,6 +32,11 @@
                     </x-nav-link>
                     @endif
                     @if(in_array(Auth::user()->role,['admin']))
+                    <x-nav-link href="{{ route('manual-draw.') }}" :active="str_starts_with($route_name, 'manual-draw.')">
+                        {{ __('Manual Draw') }}
+                    </x-nav-link>
+                    @endif
+                    @if(in_array(Auth::user()->role,['admin']))
                     <x-nav-link href="{{ route('draw.') }}" :active="str_starts_with($route_name, 'draw.')">
                         {{ __('Draw') }}
                     </x-nav-link>
@@ -167,6 +172,11 @@
             @if(in_array(Auth::user()->role,['verify','admin']))
             <x-responsive-nav-link href="{{ route('verify.') }}" :active="str_starts_with($route_name, 'verify.')">
                 {{ __('Verify') }}
+            </x-responsive-nav-link>
+            @endif
+            @if(in_array(Auth::user()->role,['admin']))
+            <x-responsive-nav-link href="{{ route('manual-draw.') }}" :active="str_starts_with($route_name, 'manual-draw.')">
+                {{ __('Manual Draw') }}
             </x-responsive-nav-link>
             @endif
             @if(in_array(Auth::user()->role,['admin']))
