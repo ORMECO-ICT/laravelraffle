@@ -115,7 +115,7 @@ class ManualDrawController extends Controller
         // dd($validatedData);
         // $validatedData['password'] = bcrypt($validatedData['password']);
         $portal = RaffleWinnerManual::create($validatedData);
-        return redirect()->route('manual-draw.')->with('success', 'Record saved successfully.');
+        return redirect()->route('manual-draw.')->with('status', 'Record saved successfully.');
     }
 
 }

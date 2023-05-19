@@ -46,6 +46,11 @@
                         {{ __('Draw') }}
                     </x-nav-link>
                     @endif
+                    @if(in_array(Auth::user()->role,['admin']))
+                    <x-nav-link href="{{ route('draw.settings') }}" :active="str_starts_with($route_name, 'draw.settings')">
+                        {{ __('Settings') }}
+                    </x-nav-link>
+                    @endif
                 </div>
             </div>
 
@@ -185,6 +190,11 @@
             </x-responsive-nav-link>
             @endif
             @if(in_array(Auth::user()->role,['admin']))
+            <x-responsive-nav-link href="{{ route('users.') }}" :active="str_starts_with($route_name, 'users.')">
+                {{ __('Users') }}
+            </x-responsive-nav-link>
+            @endif
+            @if(in_array(Auth::user()->role,['admin']))
             <x-responsive-nav-link href="{{ route('manual-draw.') }}" :active="str_starts_with($route_name, 'manual-draw.')">
                 {{ __('Tambiolo Draw') }}
             </x-responsive-nav-link>
@@ -195,8 +205,8 @@
             </x-responsive-nav-link>
             @endif
             @if(in_array(Auth::user()->role,['admin']))
-            <x-responsive-nav-link href="{{ route('users.') }}" :active="str_starts_with($route_name, 'users.')">
-                {{ __('Users') }}
+            <x-responsive-nav-link href="{{ route('draw.settings') }}" :active="str_starts_with($route_name, 'draw.settings')">
+                {{ __('Settings') }}
             </x-responsive-nav-link>
             @endif
         </div>

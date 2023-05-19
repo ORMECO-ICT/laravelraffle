@@ -60,12 +60,11 @@ Route::controller(ManualDrawController::class)->middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
-    AdminAuth::class
 ])->name('manual-draw.')->prefix(ManualDrawController::BASE)->group(function () {
-    Route::get('/', 'index');
+    Route::middleware([AdminAuth::class])->get('/', 'index');
     Route::get('/ajax-tambiolo-winners', 'ajaxTambioloWinners')->name('ajax-tambiolo-winners');
-    Route::get('/create', 'create')->name('create');
-    Route::post('/store', 'store')->name('store');
+    Route::middleware([AdminAuth::class])->get('/create', 'create')->name('create');
+    Route::middleware([AdminAuth::class])->post('/store', 'store')->name('store');
 });
 
 Route::controller(VerifyController::class)->middleware([
@@ -93,4 +92,6 @@ Route::controller(DrawController::class)->middleware([
     AdminAuth::class
 ])->name('draw.')->prefix(DrawController::BASE)->group(function () {
     Route::get('/', 'index');
+    Route::get('/settings', 'settings')->name('settings');
+    Route::post('/store', 'store')->name('store');
 });

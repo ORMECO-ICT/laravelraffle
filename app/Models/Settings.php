@@ -11,6 +11,8 @@ class Settings extends Model
 
     const TABLE = 'settings';
     protected $table = self::TABLE;
+    protected $primaryKey = 'code';
+    public $timestamps = false;
 
     /**
      * The attributes that are mass assignable.

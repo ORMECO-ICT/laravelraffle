@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Models\RaffleWinner;
 use App\Models\Settings;
 use App\DataTables\WinnersDataTable;
+use App\Http\Requests\Draw\StoreRequest;
 
 class DrawController extends Controller
 {
@@ -95,41 +96,74 @@ class DrawController extends Controller
     }
 
 
-    /**
-     * Display a listing of the resource.
-     */
-    public function success(): Response
+    private function getVenues()
     {
-        return response(view("draw.index"));
+        $venues = \DB::table('venue')->select('*')->whereNot('venue_id', 'V00')->get();
+        // $venues =  array_merge($venues->pluck('venue_id', 'venue_name')->toArray(), $towns->pluck('dist_code', 'district_desc')->toArray());
+        $result = [];
+        foreach($venues as $v)
+        {
+            array_push($result, [
+                'id' => $v->venue_id,
+                'name' => $v->venue_name
+            ]);
+        }
+        $towns = \DB::table('tbl_town')->select('dist_code', 'district_desc')->groupBy('dist_code', 'district_desc')->orderBy('tranid')->get();
+        foreach($towns as $v)
+        {
+            array_push($result, [
+                'id' => $v->dist_code,
+                'name' => $v->district_desc
+            ]);
+        }
+
+
+        return $result;
     }
 
 
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function settings(): Response
+    {
+        $settings = Settings::where('code', 'PRIZE')->first();
+        $settings_prize = $settings->value;
+        $setter_prize = $settings->setter;
 
+        $settings = Settings::where('code', 'VENUE')->first();
+        $settings_venue = $settings->value == ''? '00' : $settings->value;
+        $setter_venue = $settings->setter;
 
-    // public function ajax_source_winners(): JsonResponse
-    // {
-    //     // if ($request->ajax()) {
-    //     //     $data = Blog::select('*');
-    //     //     return Datatables::of($data)
-    //     //         ->addIndexColumn()
-    //     //         ->addColumn('action', function($row){
-    //     //             $actionBtn = '<a href="javascript:void(0)" class="edit btn btn-success btn-sm">Edit</a> <a href="javascript:void(0)" class="delete btn btn-danger btn-sm">Delete</a>';
-    //     //             return $actionBtn;
-    //     //         })
-    //     //         ->rawColumns(['action'])
-    //     //         ->make(true);
-    //     // }
+        // dd($setter_venue);
 
-    //     if(!Request::ajax()){
-    //         abort(403);
-    //     }
+        $venues = $this->getVenues();
+        return response(view("draw.settings", compact("venues", "settings_prize", "settings_venue", "setter_prize", "setter_venue")));
+    }
 
-    //     $json = Datatables()->of(RaffleWinner::select('*'))
-    //         // ->addColumn('action', 'company-action')
-    //         // ->rawColumns(['action', 'edit'])
-    //         // ->addIndexColumn()
-    //         ->make(true);
-    //     // dd($json);
-    //     return $json;
-    // }
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(StoreRequest  $request): RedirectResponse
+    {
+        $validatedData = $request->validated();
+
+        $settings = Settings::where('code', 'PRIZE')->first();
+        if($settings->value != $validatedData['prize_id']){
+            $settings->value = $validatedData['prize_id'];
+            $settings->setter = \Auth::user()->email;
+            $settings->update();
+            // Settings::update($settings);
+        }
+
+        $settings = Settings::where('code', 'VENUE')->first();
+        if($settings->value != $validatedData['venue_id']){
+            $settings->value = $validatedData['venue_id'];
+            $settings->setter = \Auth::user()->email;
+            $settings->update();
+            // Settings::update($settings);
+        }
+
+        return redirect()->route('draw.settings')->with('status', 'Settings saved successfully.');
+    }
 }
