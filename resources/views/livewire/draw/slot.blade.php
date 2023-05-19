@@ -6,6 +6,6 @@
         <span id="draw-venue" wire:click="fetchDrawDetails()">Venue: <b>{{$draw_venue_name}}</b></span>
         <span id="draw-next" wire:click="fetchDrawDetails()" class="ml-2">Next Draw: #<b>{{$draw_number}}</b></span>
         <hr style="margin:0;">
-        <div id="draw-prize" wire:click="fetchDrawDetails()" class="mt-2" >Prize: <b>{{$draw_prize_name}}</b></div>
+        <div id="draw-prize" wire:click="fetchDrawDetails()" class="mt-2" style="font-size:2em;" >Prize: <b>{{$draw_prize_name}}</b></div>
     </div>
 </form>

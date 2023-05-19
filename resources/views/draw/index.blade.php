@@ -14,7 +14,7 @@
             <canvas class="confetti" id="confetti-canvas"></canvas>
             <div id="lucky-draw">
 
-                <div class="banner"">
+                {{-- <div class="banner"">
                     <div>
                         <span class="sticker sticker-lg" data-text="41"><span>41</span></span>
                         <span class="sticker sticker" data-text="st"><sub>st</sub> </span>
@@ -23,7 +23,7 @@
 
                     <span class="sticker" data-text="ORMECO, Inc." style="--shine-angle: 8deg;"><span>ORMECO,
                             Inc.</span></span>
-                </div>
+                </div> --}}
 
                 <div>
                     <div class="slot">

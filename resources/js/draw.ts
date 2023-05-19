@@ -58,7 +58,7 @@ import confetti from 'canvas-confetti';
     }
 
     const soundEffects = new SoundEffects();
-    soundEffects.mute = true;
+    soundEffects.mute = false;
 
     const MAX_REEL_ITEMS = 40;
     const CONFETTI_COLORS = ['#26ccff', '#a25afd', '#ff5e7e', '#88ff5a', '#fcff42', '#ffa62d', '#ff36ff'];
