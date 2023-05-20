@@ -46,8 +46,8 @@
                         @php
                             $prizes = \DB::table('raffle_prize')
                                 ->select('*')
-                                ->whereNot('prize_category', 'Minor Prize')
-                                ->orderBy('prize_units')
+                                // ->whereNot('prize_category', 'Minor Prize')
+                                ->orderBy('prize_units', 'desc')
                                 ->get();
                         @endphp
                         <div class="mt-4">
