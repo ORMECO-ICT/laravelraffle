@@ -25,6 +25,10 @@
                             Inc.</span></span>
                 </div> --}}
 
+                <div class="banner"">
+                    <span class="sticker" data-text="ONLINE RAFFLE DRAW" style="--shine-angle: 8deg;"><span>ONLINE RAFFLE DRAW</span></span>
+                </div>
+
                 <div>
                     <div class="slot">
                         <div class="slot__outer">

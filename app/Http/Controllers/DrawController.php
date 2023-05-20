@@ -101,6 +101,10 @@ class DrawController extends Controller
         $venues = \DB::table('venue')->select('*')->whereNot('venue_id', 'V00')->get();
         // $venues =  array_merge($venues->pluck('venue_id', 'venue_name')->toArray(), $towns->pluck('dist_code', 'district_desc')->toArray());
         $result = [];
+        array_push($result, [
+            'id' => '00',
+            'name' => 'All Municipalities'
+        ]);
         foreach($venues as $v)
         {
             array_push($result, [

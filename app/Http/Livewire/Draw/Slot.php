@@ -61,7 +61,8 @@ class Slot extends Component
             $this->draw_prize_name = '';
         }else{
             $query = \DB::table('raffle_prize')->select('*')->where('id', $this->draw_prize_id)->first();
-            $this->draw_prize_name =$query->prize_name . ' ('. $query->prize_category .')';
+            // $this->draw_prize_name =$query->prize_name . ' ('. $query->prize_category .')';
+            $this->draw_prize_name =$query->prize_name;
         }
     }
 
