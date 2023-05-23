@@ -18,6 +18,14 @@
 
                         @push('js')
                             {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
+
+                            <script>
+                                window.addEventListener('onSuccess', (e) => {
+                                    console.log('onSuccess');
+                                    //refresh data of table
+                                    window.LaravelDataTables["table_consumers"].draw(true);
+                                });
+                            </script>
                         @endpush
                     </p>
                 </div>

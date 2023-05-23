@@ -5,19 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use App\Models\ConsumerData;
-use App\Models\ManualRegistration;
+use App\Models\Venue;
 
-class ConsumerAll extends Model
+class ManualRegistration extends Model
 {
     use HasFactory;
 
-    const TABLE = 'consumer_all';
+    const TABLE = 'manual_registrations';
     protected $table = self::TABLE;
-    protected $primaryKey = "account_code";
+    protected $primaryKey = "account_no";
     protected $keyType = "string";
-
-    public $timestamps = false;
 
     /**
      * The attributes that are mass assignable.
@@ -25,10 +22,14 @@ class ConsumerAll extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'venue_id',
         'account_no',
         'account_code',
         'consumer_name',
         'address',
+        'contact',
+        'regname',
+        'user_id',
     ];
 
     /**
@@ -45,21 +46,15 @@ class ConsumerAll extends Model
      * @var array<string, string>
      */
     protected $casts = [
+        'created_at' => 'datetime:Y-m-d h:i:s',
+        'updated_at' => 'datetime:Y-m-d h:i:s',
     ];
 
     /**
      * Get the phone associated with the user.
      */
-    public function consumer_data(): HasOne
+    public function venue(): HasOne
     {
-        return $this->hasOne(ConsumerData::class, 'account_code', 'account_code');
-    }
-
-    /**
-     * Get the phone associated with the user.
-     */
-    public function manual_registration(): HasOne
-    {
-        return $this->hasOne(ManualRegistration::class, 'account_no', 'account_no');
+        return $this->hasOne(Venue::class, 'venue_id', 'venue_id');
     }
 }

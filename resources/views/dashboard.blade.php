@@ -9,6 +9,19 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                 <div class="p-6 lg:p-8 bg-white border-b border-gray-200">
+                    <h1 class="text-2xl font-medium text-gray-900">
+                        List of Registrations per Venue
+                    </h1>
+
+                    <p class="mt-6 text-gray-500 leading-relaxed">
+                        {{ $dataTableRegistration->table() }}
+
+                        @push('js')
+                            {{ $dataTableRegistration->scripts(attributes: ['type' => 'module']) }}
+                        @endpush
+                    </p>
+                </div>
+                <div class="p-6 lg:p-8 bg-white border-b border-gray-200">
                     <h1 class="mt-4 text-2xl font-medium text-gray-900">
                         List of Online Winners
                     </h1>

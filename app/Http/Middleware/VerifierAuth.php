@@ -15,7 +15,7 @@ class VerifierAuth
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(!in_array(\Auth::user()->role, ['verify', 'admin'])){
+        if(!in_array(\Auth::user()->role, ['register', 'verify', 'admin'])){
             return redirect('dashboard');
         }
         return $next($request);

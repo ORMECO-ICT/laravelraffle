@@ -25,18 +25,29 @@ class VerifyController extends Controller
     public function index(ConsumersDataTable $dataTable)
     {
         if (request()->ajax()) {
-            $model = ConsumerAll::with('consumer_data')->select('consumer_all.*');
+            // $model = ConsumerAll::with('consumer_data')->select('consumer_all.*');
+            $model = ConsumerAll::with('manual_registration')->select('consumer_all.*');
 
             return \DataTables::eloquent($model)
-            ->addColumn('consumer_data', function (ConsumerAll $consumer) {
-                if ($consumer->consumer_data)
-                    return 'Registered';
+            // ->addColumn('consumer_data', function (ConsumerAll $consumer) {
+            //     if ($consumer->consumer_data)
+            //         return 'Registered';
+            //     else{
+            //         $code = $consumer->account_code;
+            //         $name = $consumer->consumer_name;
+            //         $town = $this->getTownDesc(substr($code, 0, 2));
+            //         $contact = '';
+            //         return view('verify.action-register', compact('code', 'name', 'town', 'contact'));
+            //     }
+            // })
+            ->addColumn('action', function (ConsumerAll $consumer) {
+                if (\Auth::user()->role == 'admin' || \Auth::user()->role == 'register')
+                    return \Livewire::mount('registration.manual-register', ['consumer' => $consumer])->html();
                 else{
-                    $code = $consumer->account_code;
-                    $name = $consumer->consumer_name;
-                    $town = $this->getTownDesc(substr($code, 0, 2));
-                    $contact = '';
-                    return view('verify.action-register', compact('code', 'name', 'town', 'contact'));
+                    if($consumer->manual_registration)
+                    return 'Registered';
+                    else
+                    return '';
                 }
             })
             ->toJson();

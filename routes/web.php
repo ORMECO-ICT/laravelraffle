@@ -7,6 +7,7 @@ use App\Http\Controllers\VerifyController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\ManualDrawController;
 use App\Http\Controllers\RegistrationController;
+use App\Http\Controllers\ManualRegistrationController;
 use App\Http\Middleware\AdminAuth;
 use App\Http\Middleware\VerifierAuth;
 use App\Http\Livewire\Draw\Slot;
@@ -44,6 +45,7 @@ Route::controller(DashboardController::class)->middleware([
 ])->name('dashboard.')->prefix(DashboardController::BASE)->group(function () {
     Route::get('/', 'index');
     Route::get('/ajax-online-winners', 'ajaxOnlineWinners')->name('ajax-online-winners');
+    Route::get('/ajax-manual-registrations', 'ajaxManualRegistration')->name('ajax-manual-registrations');
 });
 
 Route::controller(RegistrationController::class)->middleware([
@@ -54,6 +56,15 @@ Route::controller(RegistrationController::class)->middleware([
     Route::get('/', 'index');
     Route::get('/ajax-data', 'ajaxData')->name('ajax-data');
     Route::get('/ajax-raffle-entries', 'ajaxRaffleEntries')->name('ajax-raffle-entries');
+});
+
+Route::controller(ManualRegistrationController::class)->middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->name('manual-registration.')->prefix(ManualRegistrationController::BASE)->group(function () {
+    Route::get('/', 'index');
+    Route::get('/ajax-manual-registrations', 'ajaxManualRegistration')->name('ajax-manual-registrations');
 });
 
 Route::controller(ManualDrawController::class)->middleware([

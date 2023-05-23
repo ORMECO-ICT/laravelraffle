@@ -21,12 +21,17 @@
                     <x-nav-link href="{{ route('dashboard.') }}" :active="str_starts_with($route_name, 'dashboard.')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    @if(in_array(Auth::user()->role,['verify','admin']))
+                    @if(in_array(Auth::user()->role,['register', 'verify','admin']))
                     <x-nav-link href="{{ route('registration.') }}" :active="str_starts_with($route_name, 'registration.')">
                         {{ __('Registration') }}
                     </x-nav-link>
                     @endif
-                    @if(in_array(Auth::user()->role,['verify','admin']))
+                    @if(in_array(Auth::user()->role,['register','admin']))
+                    <x-nav-link href="{{ route('manual-registration.') }}" :active="str_starts_with($route_name, 'manual-registration.')">
+                        {{ __('Manual Registration') }}
+                    </x-nav-link>
+                    @endif
+                    @if(in_array(Auth::user()->role,['register', 'verify','admin']))
                     <x-nav-link href="{{ route('verify.') }}" :active="str_starts_with($route_name, 'verify.')">
                         {{ __('Verify') }}
                     </x-nav-link>
@@ -182,6 +187,11 @@
             @if(in_array(Auth::user()->role,['verify','admin']))
             <x-responsive-nav-link href="{{ route('registration.') }}" :active="str_starts_with($route_name, 'registration.')">
                 {{ __('Registration') }}
+            </x-responsive-nav-link>
+            @endif
+            @if(in_array(Auth::user()->role,['register','admin']))
+            <x-responsive-nav-link href="{{ route('manual-registration.') }}" :active="str_starts_with($route_name, 'manual-registration.')">
+                {{ __('Manual Registration') }}
             </x-responsive-nav-link>
             @endif
             @if(in_array(Auth::user()->role,['verify','admin']))

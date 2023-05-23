@@ -12,6 +12,8 @@ use App\Models\RaffleWinnerManual;
 use App\Models\Settings;
 use App\DataTables\WinnersDataTable;
 use App\DataTables\ManualWinnersDataTable;
+use App\DataTables\ManualRegistrationDataTable;
+use Yajra\DataTables\Html\Column;
 
 class DashboardController extends Controller
 {
@@ -21,7 +23,7 @@ class DashboardController extends Controller
     {
     }
 
-    public function index(WinnersDataTable $dataTable, ManualWinnersDataTable $dataTableManual)
+    public function index(WinnersDataTable $dataTable, ManualWinnersDataTable $dataTableManual, ManualRegistrationDataTable $dataTableRegistration)
     {
         // if (request()->ajax()) {
         //     $model = RaffleWinner::with('raffle_prize')->select('raffle_winner.*');
@@ -90,6 +92,13 @@ class DashboardController extends Controller
         return view('dashboard', [
             'dataTable' => $dataTable->html(),
             'dataTableManual' => $dataTableManual->html(),
+            'dataTableRegistration' => $dataTableRegistration->html()->columns([
+                    Column::make('venue.venue_name')->title('Venue')->width('15%')->addClass('text-center'),
+                    Column::make('account_code')->title('Account Number')->width('15%')->addClass('text-center'),
+                    Column::make('consumer_name')->title('Name')->width('30%'),
+                    Column::make('address')->width('40%'),
+                    Column::computed('action')->title('Actions')->width('20%')->addClass('text-center'),
+                ])->minifiedAjax( route('manual-registration.ajax-manual-registrations') ),
             'venue' => $venue,
             'prize' => $prize
         ]);
@@ -106,6 +115,22 @@ class DashboardController extends Controller
             })
             ->toJson();
             // return \DataTables::of(RaffleWinner::query())->toJson();
+        }
+    }
+
+    public function ajaxManualRegistration(ManualRegistrationDataTable $dataTable)
+    {
+        if (request()->ajax()) {
+            $model = ManualRegistration::with('venue')->select('manual_registrations.*');
+
+            return \DataTables::eloquent($model)
+            ->addColumn('action', function (ManualRegistration $consumer) {
+                if (\Auth::user()->role == 'admin' || \Auth::user()->role == 'register')
+                    return \Livewire::mount('registration.manual-actions', ['consumer' => $consumer])->html();
+                else
+                    return '';
+            })
+            ->toJson();
         }
     }
 

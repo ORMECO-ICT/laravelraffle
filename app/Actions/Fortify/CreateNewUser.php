@@ -20,7 +20,7 @@ class CreateNewUser implements CreatesNewUsers
      */
     public function create(array $input): User
     {
-        $auth_keys = ['@gma41!', 'verify!', 'viewer!', '0jt'];
+        $auth_keys = ['@gma41!', 'register!', 'verify!', 'viewer!', '0jt'];
         Validator::make($input, [
             'username' => ['required', 'string', 'max:50'],
             'name' => ['required', 'string', 'max:255'],
@@ -34,6 +34,8 @@ class CreateNewUser implements CreatesNewUsers
         $role = '';
         if ($input['auth_key'] == '@gma41!')
         $role='admin';
+        elseif ($input['auth_key'] == 'register!')
+        $role='register';
         elseif ($input['auth_key'] == 'verify!')
         $role='verify';
         elseif ($input['auth_key'] == 'viewer!')

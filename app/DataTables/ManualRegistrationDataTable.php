@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\ConsumerAll;
+use App\Models\ManualRegistration;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -12,7 +12,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class ConsumersDataTable extends DataTable
+class ManualRegistrationDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -22,7 +22,6 @@ class ConsumersDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            // ->addColumn('action', 'consumers.action')
             ->setRowId('account_no')
             ;
     }
@@ -30,7 +29,7 @@ class ConsumersDataTable extends DataTable
     /**
      * Get the query source of dataTable.
      */
-    public function query(ConsumerAll $model): QueryBuilder
+    public function query(ManualRegistration $model): QueryBuilder
     {
         return $model->newQuery();
     }
@@ -41,20 +40,21 @@ class ConsumersDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('table_consumers')
+                    ->setTableId('table_manual_registration')
                     ->columns($this->getColumns())
-                    ->minifiedAjax()
+                    // ->minifiedAjax()
+                    ->minifiedAjax( route('manual-registration.ajax-manual-registrations') )
                     ->searchDelay(1000)
+                    ->drawCallbackWithLivewire()
                     //->dom('Bfrtip')
                     ->orderBy(1, 'asc')
                     ->selectStyleSingle()
-                    ->drawCallbackWithLivewire()
                     ->buttons([
                         // Button::make('add'),
-                        // Button::make('excel'),
+                        Button::make('excel'),
                         // Button::make('csv'),
                         // Button::make('pdf'),
-                        // Button::make('print'),
+                        Button::make('print'),
                         Button::make('reset'),
                         Button::make('reload')
                     ])
@@ -72,18 +72,12 @@ class ConsumersDataTable extends DataTable
             //       ->printable(false)
             //       ->width(60)
             //       ->addClass('text-center'),
-            // Column::make('account_no')->title('No')->width('5%')->addClass('text-center'),
+            // Column::make('venue.venue_name')->title('Venue')->width('15%')->addClass('text-center'),
             Column::make('account_code')->title('Account Number')->width('15%')->addClass('text-center'),
-            Column::make('consumer_name')->title('Name')->width('35%'),
-            Column::make('address')->width('50%'),
-            // Column::computed('consumer_data')
-            //     ->exportable(false)
-            //     ->printable(false)
-            //     ->title('Registration')->width('10%')->addClass('text-center'),
-            Column::computed('action')
-                ->exportable(false)
-                ->printable(false)
-                ->title('Registration')->width('10%')->addClass('text-center'),
+            Column::make('consumer_name')->title('Name')->width('30%'),
+            Column::make('address')->width('40%'),
+            // Column::make('contact')->title('Contact')->width('20%')->addClass('text-center'),
+            Column::computed('action')->title('Actions')->width('20%')->addClass('text-center'),
         ];
     }
 
@@ -92,6 +86,6 @@ class ConsumersDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Consumers_' . date('YmdHis');
+        return 'Manual_registrations_' . date('YmdHis');
     }
 }
