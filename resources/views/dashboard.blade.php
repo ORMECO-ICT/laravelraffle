@@ -20,7 +20,35 @@
                             {{ $dataTableRegistration->scripts(attributes: ['type' => 'module']) }}
                         @endpush
                     </p>
+                    <div class="mt-6 text-gray-500 leading-relaxed">
+                        @if(count($manual_summary)>0)
+                            <h1 class="mt-4 text-2xl font-medium text-gray-500">
+                                Summary per Venue
+                            </h1>
+                            <table class="table dataTable table-striped table-bordered table-hover no-footer" style="width:50%;">
+                                <colgroup>
+                                    <col width="15%">
+                                    <col width="40%">
+                                </colgroup>
+                                <thead>
+                                    <tr>
+                                        <th>Venue</th>
+                                        <th>Registrants</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($manual_summary as $item)
+                                    <tr>
+                                        <td>{{$item->venue_name}}</td>
+                                        <td>{{$item->cnt}}</td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        @endif
+                    </div>
                 </div>
+
                 <div class="p-6 lg:p-8 bg-white border-b border-gray-200">
                     <h1 class="mt-4 text-2xl font-medium text-gray-900">
                         List of Online Winners

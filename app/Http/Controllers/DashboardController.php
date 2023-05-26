@@ -87,6 +87,12 @@ class DashboardController extends Controller
             ];
         }
 
+        $summary = \DB::select('SELECT v.venue_id, v.venue_name, count(*) cnt FROM venue v
+        LEFT JOIN manual_registrations r ON r.venue_id=v.venue_id
+        WHERE v.venue_id <> "V00"
+        GROUP BY v.venue_id, v.venue_name');
+
+
         // return response(view("dashboard", compact("dataTable")));
         // return $dataTable->render('dashboard', compact("venue", "prize"));
         return view('dashboard', [
@@ -100,7 +106,8 @@ class DashboardController extends Controller
                     Column::computed('action')->title('Actions')->width('20%')->addClass('text-center'),
                 ])->minifiedAjax( route('manual-registration.ajax-manual-registrations') ),
             'venue' => $venue,
-            'prize' => $prize
+            'prize' => $prize,
+            'manual_summary' => $summary
         ]);
     }
 
