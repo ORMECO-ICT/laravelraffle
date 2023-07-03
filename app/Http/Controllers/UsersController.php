@@ -24,9 +24,13 @@ class UsersController extends Controller
                 // return view('users.manage-status', compact('user'));
                 return \Livewire::mount('users.approval', ['user' => $user])->html();
             })
+            ->addColumn('pass', function (User $user) {
+                return \Livewire::mount('users.password', ['user' => $user])->html();
+            })
             ->editColumn('created_at', function (User $outcome) {
                 return \Carbon\Carbon::parse($outcome->created_at )->isoFormat('MM/DD/YYYY hh:mm A');
             })
+            ->rawColumns(['action', 'pass'])
             ->toJson();
 
             // return \DataTables::of(ConsumerAll::with('consumer_data')->select('consumer_all.*'))->toJson();
